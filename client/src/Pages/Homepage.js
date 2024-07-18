@@ -9,9 +9,11 @@ const Homepage = () => {
   <Container>
   <nav>
     <button>
-     <Link to="/login"  style={{ color: 'inherit', textDecoration: 'inherit'}}> LogIn </Link>  
+     <Link to="/login"  style={{ color: 'inherit', textDecoration: 'inherit'}} > LogIn </Link>  
         </button>
-    <button>Register</button>
+    <button>
+    <Link to="/register" style={{ color: 'inherit', textDecoration: 'inherit'}}>  Register</Link>
+      </button>
   </nav>
   <div className="div1">
     <h2>Why face it alone?<br/>Connect,<br/>share,<br/>heal.</h2>
