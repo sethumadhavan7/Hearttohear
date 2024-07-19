@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Api from '../Api/Api';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [userName, setUsername] = useState('');
@@ -12,7 +13,7 @@ const Register = () => {
     const [role, setRole] = useState('');
     const [password, setPassword] = useState('');
     const [confrimpassword, setconfrimpassword] = useState('');
-
+    const navigator = useNavigate();
     
     const handleRegister = async(e) => {
         e.preventDefault();
@@ -33,7 +34,10 @@ const Register = () => {
                 console.log(formData)
                 const response = await Api.post('/auth/register',formData)
                 console.log(response.data)
-
+                if(response.status)
+                {
+                    navigator('/login');
+                }
             }
           else{
             alert("make fill form correctly")
