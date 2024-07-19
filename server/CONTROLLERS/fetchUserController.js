@@ -4,7 +4,7 @@ const User = require('../MODELS/userModel'); // Adjust the path accordingly
 const fetchAllHelpers = async (req, res) => {
     try {
         const {language} = req.body;
-        const helpers = await User.find({ role: 'helper',availablity: true,language: language}).sort({ ratings: -1 });
+        const helpers = await User.find({ role: 'helper',availablity: true,language: language.toUpperCase()}).sort({ ratings: -1 });
         res.status(200).json({ helpers, status: true });
     } catch (error) {
         console.error(error);

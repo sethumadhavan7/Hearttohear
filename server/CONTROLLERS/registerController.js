@@ -20,7 +20,7 @@ const register = async(req,res)=>{
             mobile,
             mail,
             interests,
-            language,
+            language: language.toUpperCase(),
             gender,
             role,
             password: hashedPassword
