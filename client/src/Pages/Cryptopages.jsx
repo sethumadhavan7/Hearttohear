@@ -4,6 +4,7 @@ import Web3 from 'web3';
 import { abi } from './Abi.js'; // Assuming your ABI file is named Abi.json
 import { json } from 'react-router-dom';
 import Api from '../Api/Api.js';
+import Menu2 from '../Components/Menu2.jsx';
 
 const Cryptopages = () => {
   const [coins, setCoins] = useState(); // Example initial value
@@ -134,6 +135,9 @@ const Cryptopages = () => {
 
   return (
     <Container>
+        <div className="menu">
+        <Menu2/>
+      </div>
       <Header>
         <h1>Crypto Dashboard</h1>
         <WalletButton onClick={handleConnectWallet}>
@@ -180,10 +184,16 @@ const Cryptopages = () => {
 
 // Styled Components
 const Container = styled.div`
+.menu {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
   font-family: 'Arial', sans-serif;
   background-color: #f5f5f5;
   padding: 20px;
   min-height: 100vh;
+  padding-top: 5rem;
 `;
 
 const Header = styled.header`
