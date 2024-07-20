@@ -9,11 +9,18 @@ const Helper = () => {
   const [isAvailable, setIsAvailable] = useState(false);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("Mental-App"));
-    if (storedUser) {
-      setHelper(storedUser);
-      setIsAvailable(storedUser.availablity);
+    const fetch = async()=>{
+      const storedUser = JSON.parse(localStorage.getItem("Mental-App"));
+      if (storedUser) {
+        const response = await Api.get(`/user/det/${storedUser._id}`);
+        console.log(response.data)
+        localStorage.setItem("Mental-App", JSON.stringify(response.data));
+        setHelper(storedUser);
+        setIsAvailable(storedUser.availablity);
+      }
     }
+    fetch()
+    
   }, []);
 
   const handleAvailabilityToggle = async () => {

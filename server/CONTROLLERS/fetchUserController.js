@@ -11,7 +11,19 @@ const fetchAllHelpers = async (req, res) => {
         res.status(500).json({ message: 'Internal server error', status: false });
     }
 };
+const getUserData = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const data = await User.findById(id)
+        const userObject = data.toObject();
+        delete userObject.password;
+        res.status(200).json(data);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Internal server error', status: false });
+    }
+}
 
 module.exports = {
-    fetchAllHelpers
+    fetchAllHelpers, getUserData
 };
