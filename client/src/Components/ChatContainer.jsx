@@ -139,6 +139,7 @@ const CallLinkContainer = styled.div`
     border: none;
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
+
     color: white;
     cursor: pointer;
     font-size: 1rem;
@@ -153,13 +154,17 @@ const Container = styled.div`
     height: 85vh;
     width: 100%;
     display: grid;
-    grid-template-rows: 8% 88% 4%;
+    grid-template-rows: 8% 87% 4%;
     color: white;
+    border: 1px solid green;
+    border-radius: 0 1rem 1rem 0;
     .chat-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
         background-color: #2e7d32;
+        border-radius: 0 1rem 1rem 0;
+
         padding: 1rem;
         .chatUser{
             display: flex;
@@ -179,7 +184,8 @@ const Container = styled.div`
     }
     .messages{
         overflow-y: scroll;
-        background-color: #29dc2993;
+        background-color: #ffff;
+        
         &::-webkit-scrollbar{
             width: 0.2rem;
             &-thumb{

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Api from '../Api/Api';
 import styled from 'styled-components';
 import Menu2 from '../Components/Menu2';
+import profile from '../img/profile.svg';
+
 
 const Helper = () => {
   const [helper, setHelper] = useState({});
@@ -29,7 +31,7 @@ const Helper = () => {
         storedUser.availablity = response.data.availablity;
         localStorage.setItem("Mental-App", JSON.stringify(storedUser));
         setHelper(storedUser);
-        alert("Success");
+        alert("Availability status updated successfully");
       } else {
         console.error("Failed to update availability", response.data.message);
       }
@@ -52,28 +54,32 @@ const Helper = () => {
 
       <HelperDetails>
         <h1>Helper Details</h1>
-        <p><strong>Name:</strong> {helper.userName}</p>
-        <p><strong>Age:</strong> {helper.age}</p>
-        <p><strong>Gender:</strong> {helper.gender}</p>
-        <p><strong>Language:</strong> {helper.language}</p>
-        <p><strong>Email:</strong> {helper.mail}</p>
-        <p><strong>Mobile:</strong> {helper.mobile}</p>
-        <p><strong>Interests:</strong> {helper.interests?.join(', ')}</p>
-        <p><strong>Availability:</strong> {helper.availablity ? 'Available' : 'Not Available'}</p>
-        <p><strong>Call Count:</strong> {helper.callCount}</p>
-        <p><strong>Coins:</strong> {helper.coins}🪙</p>
-        <p><strong>Ratings:</strong> {helper.ratings !== undefined ? helper.ratings.toFixed(1) : 'N/A'}</p>
-        <p><strong>Role:</strong> {helper.role}</p>
+
+      
+        <DetailItem><strong>Name:</strong> {helper.userName}</DetailItem>
+        <DetailItem><strong>Age:</strong> {helper.age}</DetailItem>
+        <DetailItem><strong>Gender:</strong> {helper.gender}</DetailItem>
+        <DetailItem><strong>Language:</strong> {helper.language}</DetailItem>
+        <DetailItem><strong>Email:</strong> {helper.mail}</DetailItem>
+        <DetailItem><strong>Mobile:</strong> {helper.mobile}</DetailItem>
+        <DetailItem><strong>Interests:</strong> {helper.interests?.join(', ')}</DetailItem>
+        <DetailItem><strong>Availability:</strong> {helper.availablity ? 'Available' : 'Not Available'}</DetailItem>
+        <DetailItem><strong>Call Count:</strong> {helper.callCount}</DetailItem>
+        <DetailItem><strong>Coins:</strong> {helper.coins}🪙</DetailItem>
+        <DetailItem><strong>Ratings:</strong> {helper.ratings !== undefined ? helper.ratings.toFixed(1) : 'N/A'}</DetailItem>
+        <DetailItem><strong>Role:</strong> {helper.role}</DetailItem>
       </HelperDetails>
     </Container>
   );
 };
 
 const Container = styled.div`
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   color: #333;
   padding: 20px;
-  background-color: #f0f8f5;
+  background-color: #eaf4f4;
+  position: relative;
+  min-height: 100vh;
 
   .menu {
     position: absolute;
@@ -87,43 +93,51 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 
   button {
-    background-color: ${(props) => (props.isAvailable ? '#28a745' : '#dc3545')};
+    background-color: ${(props) => (props.isAvailable ? '#4caf50' : '#f44336')};
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 12px 24px;
+    font-size: 18px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
     &:hover {
-      background-color: ${(props) => (props.isAvailable ? '#218838' : '#c82333')};
+      background-color: ${(props) => (props.isAvailable ? '#45a049' : '#e53935')};
+      transform: scale(1.05);
     }
   }
 `;
 
 const HelperDetails = styled.div`
   background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   margin-top: 20px;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 
   h1 {
-    color: #28a745;
+    color: #4caf50;
     text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
   }
+`;
 
-  p {
-    font-size: 16px;
-    line-height: 1.6;
+const DetailItem = styled.p`
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 10px;
 
-    strong {
-      color: #28a745;
-    }
+  strong {
+    color: #4caf50;
+    font-weight: bold;
   }
 `;
 

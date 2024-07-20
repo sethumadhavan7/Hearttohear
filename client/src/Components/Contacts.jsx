@@ -45,12 +45,13 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
 
 const Container = styled.div`
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
     padding-top: 20px;
     color: white;
     display: grid;
     grid-template-rows: 10% 75% 15%;
-    background-color: #2e7d32;
+    background-color: #e1dede;
+    border: 1px solid green;
     
     .brand {
         display: flex;
@@ -63,7 +64,7 @@ const Container = styled.div`
         }
 
         h3 {
-            color: white;
+            color: black;
         }
     }
 
@@ -82,6 +83,7 @@ const Container = styled.div`
                 background-color: #ffffff39;
                 width: 0.1rem;
                 border-radius: 1rem;
+                
             }
         }
 
@@ -91,7 +93,8 @@ const Container = styled.div`
             display: flex;
             gap: 1rem;
             align-items: center;
-            background-color: #388e3c;
+    
+            border: 1px solid green;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
 
