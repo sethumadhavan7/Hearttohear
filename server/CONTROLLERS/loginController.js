@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../MODELS/userModel');
 require('dotenv').config();
 
-const login = async(req,res)=>{
+const login = async (req, res) => {
     const { mobile, password } = req.body;
 
     const JWT_SECRET = process.env.JWT_SECRET;
@@ -23,13 +23,16 @@ const login = async(req,res)=>{
 
         // Create a JWT token
         const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' }); // 1 hour expiration
-        delete user.password;
-       
-        res.status(200).json({ message: 'Login successful',status: true, token,user });
+
+        // Convert user document to plain JavaScript object and remove password
+        const userObject = user.toObject();
+        delete userObject.password;
+
+        res.status(200).json({ message: 'Login successful', status: true, token, user: userObject });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal server error', sytatus: false });
+        res.status(500).json({ message: 'Internal server error', status: false });
     }
 }
 
-module.exports = {login}
+module.exports = { login };

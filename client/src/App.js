@@ -4,18 +4,36 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Client from './Pages/Client';
 import Helper from './Pages/Helper';
+import Chat from './Pages/Chat';
+import OpenChat from './Components/OpenChat';
+import { useEffect, useRef, useState } from 'react';
+import {io} from 'socket.io-client'
+import CallPage from './Pages/CallPage';
+import HelperRequest from './Pages/HelperRequest';
 
 function App() {
+  const [User,setUser] = useState(undefined);
+  const [Chats,setChat] = useState(undefined);
+  const socket = useRef();
+
+  useEffect(()=>{
+    if(User){
+      socket.current = io("http://localhost:3500")
+      socket.current.emit("add-user",User._id)
+    }
+  },[User])
   return (
       <>
         <Routes>
           <Route path="/" element={<Homepage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path="/client" element={<Client/>}/>
+          <Route path="/client" element={<Client setUser = {setUser} setChat = {setChat} />}/>
           <Route path="/helper" element={<Helper/>}/>
-       
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/request" element={<HelperRequest setUser = {setUser}/>}/>
+          <Route path = "/chat-page" element={<Chat/>} />
+          <Route path = "/test" element={<CallPage Chats = {Chats} />} />
+          <Route path="/priv-chat" element={<OpenChat Chats={Chats} User={User} socket = {socket} />} />
         </Routes>
       </>
   );
