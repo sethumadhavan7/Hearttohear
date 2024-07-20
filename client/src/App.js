@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import {io} from 'socket.io-client'
 import CallPage from './Pages/CallPage';
 import HelperRequest from './Pages/HelperRequest';
+import Cryptopages from './Pages/Cryptopages';
 
 function App() {
   const [User,setUser] = useState(undefined);
@@ -32,6 +33,7 @@ function App() {
           <Route path="/helper" element={<Helper/>}/>
           <Route path="/request" element={<HelperRequest setUser = {setUser}/>}/>
           <Route path = "/chat-page" element={<Chat/>} />
+          <Route path = "/crypto" element={<Cryptopages/>} />
           <Route path = "/test" element={<CallPage Chats = {Chats} />} />
           <Route path="/priv-chat" element={<OpenChat Chats={Chats} User={User} socket = {socket} />} />
         </Routes>

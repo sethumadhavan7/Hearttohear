@@ -26,6 +26,7 @@ const Menu2 = () => {
         <MenuContainer>
           <Link to={'/helper'}><MenuItem>Home</MenuItem></Link>
           <Link to={'/request'}><MenuItem>Requests</MenuItem></Link>
+          <Link to={'/crypto'}><MenuItem>Crypto</MenuItem></Link>
           <p style={{color:'red',textAlign:'center',cursor:'pointer'}} onClick={handleLogout} >LogOut</p>
         </MenuContainer>
       )}
