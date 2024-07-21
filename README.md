@@ -1,7 +1,3 @@
-Here's the updated README file without mentioning ML/AI:
-
----
-
 # MENTAL HEALTH APPLICATION
 
 ## Overview
