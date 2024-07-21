@@ -1,7 +1,7 @@
 # MENTAL HEALTH APPLICATION
 
 ## Overview
-Mental Health Apllication is a platform designed to provide accessible mental health support by connecting individuals experiencing depression with compassionate volunteers. This community-driven solution leverages technology to facilitate meaningful connections, ensuring timely and personalized support. Volunteers are recognized for their contributions through a token-based reward system recorded securely on a blockchain.
+Mental Health Application is a platform designed to provide accessible mental health support by connecting individuals experiencing depression with compassionate volunteers. This community-driven solution leverages technology to facilitate meaningful connections, ensuring timely and personalized support. Volunteers are recognized for their contributions through a token-based reward system recorded securely on a blockchain.
 
 ## Problem Statement
 In today's fast-paced world, many individuals experience depression and mental health challenges, often feeling isolated and unsupported. Access to professional mental health services can be limited due to barriers such as cost, stigma, and availability. Our platform aims to bridge this gap by connecting individuals with supportive volunteers, providing an accessible and community-driven solution to mental health support.
@@ -94,19 +94,20 @@ In today's fast-paced world, many individuals experience depression and mental h
    - Record Transactions on Blockchain
 
 ## Tech Stack
-- **Web Development**: Frontend(React.js) /Backend(Node.js & MongoDB)
-- **Blockchain**: Token rewards system
+- **Web Development**: Frontend (React.js) / Backend (Node.js & MongoDB)
+- **Blockchain**: Token rewards system (Solidity, Web3.js, MetaMask)
+- **Real-time Communication**: Live messaging and support sessions (Socket.io, Zegacloud API)
 
 ## Key Benefits
 1. **Enhanced Accessibility to Mental Health Support**
-   - **Wider Reach**: Provides mental health support to individuals who might otherwise have limited access due to geographical, financial, or social barriers.
-   - **Timely Help**: Ensures timely support, potentially preventing the worsening of depressive symptoms.
+   - **Wider Reach**: Provided mental health support to individuals who might otherwise have limited access due to geographical, financial, or social barriers.
+   - **Timely Help**: Ensured timely support, potentially preventing the worsening of depressive symptoms.
 
 2. **Innovative Use of Technology**
-   - **Blockchain for Transparency**: Utilizes blockchain technology for recording transactions, ensuring transparency and trust in the reward system, enhancing volunteer satisfaction.
+   - **Blockchain for Transparency**: Utilized blockchain technology for recording transactions, ensuring transparency and trust in the reward system, enhancing volunteer satisfaction.
 
 3. **Reduction of Mental Health Stigma**
-   - **Community Awareness**: Fosters open conversations about mental health and involves community members as volunteers, helping to normalize mental health issues and reduce associated stigma.
+   - **Community Awareness**: Fostered open conversations about mental health and involved community members as volunteers, helping to normalize mental health issues and reduce associated stigma.
 
 ## Getting Started
 ### Prerequisites
@@ -152,6 +153,12 @@ In today's fast-paced world, many individuals experience depression and mental h
 2. Complete the profile setup based on your role (User/Volunteer).
 3. Browse profiles or requests and initiate support sessions.
 4. Provide feedback and earn token rewards as a volunteer.
+
+## Hosted Application
+- [Live Application](https://mental-health-frontend-ft9t.onrender.com/) (Please note: Since the application is hosted on a free server on Render, it may take up to 50 seconds for the first response. There will be no delay after that.)
+
+## Blockchain Transactions
+- [View on Etherscan](https://sepolia.etherscan.io/address/0x3aD89DDe7e823a23D1518D841B3e34E14D209320)
 
 ## Contributing
 1. Fork the repository.
