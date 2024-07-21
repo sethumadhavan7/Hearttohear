@@ -82,6 +82,7 @@ const Helper = () => {
         <LowerBox>
           <DetailItem><strong>Call Count:</strong> {helper.callCount}</DetailItem>
           <DetailItem><strong>Coins:</strong> {helper.coins}🪙</DetailItem>
+          <DetailItem><strong>Tokens:</strong> {helper.tokens}</DetailItem>
           <DetailItem><strong>Ratings:</strong> {helper.ratings !== undefined ? helper.ratings.toFixed(1) : 'N/A'}</DetailItem>
         </LowerBox>
       </HelperDetails>
