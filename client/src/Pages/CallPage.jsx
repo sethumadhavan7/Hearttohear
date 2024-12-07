@@ -80,7 +80,7 @@ export default function CallPage({ Chats }) {
     const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
     const userID = randomID(5);
     const userName = randomID(5);
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName); 
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
     zp.joinRoom({
