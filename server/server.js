@@ -11,7 +11,7 @@ const DB_URL = process.env.DB_URL;
 
 // Middleware to handle CORS
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://hearttohear-frontend.vercel.app'], // Allowed origins
+    origin: ['http://localhost:3000', 'https://hearttohear-frontend.vercel.app/'], // Allowed origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
     credentials: true, // Allow cookies and credentials
 }));
@@ -52,7 +52,7 @@ const server = app.listen(PORT, () => {
 // Socket.IO integration with CORS
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:3000', 'https://hearttohear-frontend.vercel.app'], // Allowed origins
+        origin: ['http://localhost:3000', 'https://hearttohear-frontend.vercel.app/'], // Allowed origins
         methods: ['GET', 'POST'], // Allowed WebSocket methods
     },
 });
