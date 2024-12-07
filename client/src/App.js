@@ -19,7 +19,7 @@ function App() {
 
   useEffect(()=>{
     if(User){
-      socket.current = io("https://hearttohear.vercel.app/")
+      socket.current = io("https://hearttohear-frontend.onrender.com")
       socket.current.emit("add-user",User._id)
     }
   },[User])
