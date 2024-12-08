@@ -34,7 +34,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("http://localhost:3500")
+      socket.current = io("https://hearttohear-frontend.onrender.com/")
       socket.current.emit("add-user", currentUser._id)
     }
   }, [currentUser])
