@@ -77,7 +77,7 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
         arrivalMessage && setMessages((prev)=>[...prev,arrivalMessage])
     },[arrivalMessage])
     const renderMessageContent = (message) => {
-        const urlPattern = /http:\/\/hearttohear-frontend\.onrender\.com\/#\/test\/\?roomID=\w+/;
+        const urlPattern = /https:\/\/hearttohear-frontend.onrender.com\/#\/test\/\?roomID=\w+/;
 
         const isCallLink = urlPattern.test(message.message);
     
