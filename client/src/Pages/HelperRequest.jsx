@@ -35,7 +35,7 @@ const HelperRequest = ({setUser}) => {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("http://localhost:3500")
+      socket.current = io("https://hearttohear-2.onrender.com")
       socket.current.emit("add-user", currentUser._id)
     }
   }, [currentUser])
