@@ -5,11 +5,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Api from '../Api/Api';
 
 function randomID(len = 5) {
-  let result = '';
   const chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP';
-  const maxPos = chars.length;
+  let result = '';
   for (let i = 0; i < len; i++) {
-    result += chars.charAt(Math.floor(Math.random() * maxPos));
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
 }
@@ -71,14 +70,13 @@ export default function CallPage({ Chats }) {
   const [rating, setRating] = useState('');
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
-  const location = useLocation(); // Hook to track URL changes
   const callContainerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Extract roomID from URL or generate a new one
   const roomID = getUrlParams(location.search).get('roomID') || randomID(5);
 
-  const startCall = (element) => {
+  const startCall = async (element) => {
     const appID = 1152851638;
     const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
     const userID = randomID(5);
@@ -86,15 +84,6 @@ export default function CallPage({ Chats }) {
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-
-    // Leave room cleanup to ensure no duplicate calls
-    zp.onLeaveRoom(() => {
-      console.log('Room cleaned up');
-      if (element && element.firstChild) {
-        element.removeChild(element.firstChild);
-      }
-    });
-
     zp.joinRoom({
       container: element,
       sharedLinks: [
@@ -112,29 +101,30 @@ export default function CallPage({ Chats }) {
       onLeaveRoom: () => {
         console.log('Call ended at:', Date.now());
         const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
-        if (userDetails && userDetails.role === 'client') {
+        if (userDetails?.role === 'client') {
           setShowRatingPrompt(true);
-        } else if (userDetails && userDetails.role === 'helper') {
+        } else if (userDetails?.role === 'helper') {
           navigate('/helper');
         }
       },
     });
-
-    return zp;
   };
 
   useEffect(() => {
     let zpInstance;
+
     if (callContainerRef.current) {
-      zpInstance = startCall(callContainerRef.current);
+      startCall(callContainerRef.current)
+        .then((instance) => (zpInstance = instance))
+        .catch((error) => console.error('Error starting call:', error));
     }
 
     return () => {
       if (zpInstance) {
-        zpInstance.leaveRoom(); // Proper cleanup of resources
+        zpInstance.leaveRoom();
       }
     };
-  }, [roomID, location.pathname]); // Reinitialize on roomID or URL changes
+  }, [roomID, location.pathname]);
 
   const handleStarClick = (value) => {
     setSelectedRating(value);
