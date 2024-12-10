@@ -86,6 +86,15 @@ export default function CallPage({ Chats }) {
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
+
+    // Leave room cleanup to ensure no duplicate calls
+    zp.onLeaveRoom(() => {
+      console.log('Room cleaned up');
+      if (element && element.firstChild) {
+        element.removeChild(element.firstChild);
+      }
+    });
+
     zp.joinRoom({
       container: element,
       sharedLinks: [
@@ -110,13 +119,22 @@ export default function CallPage({ Chats }) {
         }
       },
     });
+
+    return zp;
   };
 
   useEffect(() => {
+    let zpInstance;
     if (callContainerRef.current) {
-      startCall(callContainerRef.current);
+      zpInstance = startCall(callContainerRef.current);
     }
-  }, [callContainerRef, roomID, location.pathname]); // Trigger effect when roomID or URL changes
+
+    return () => {
+      if (zpInstance) {
+        zpInstance.leaveRoom(); // Proper cleanup of resources
+      }
+    };
+  }, [roomID, location.pathname]); // Reinitialize on roomID or URL changes
 
   const handleStarClick = (value) => {
     setSelectedRating(value);
