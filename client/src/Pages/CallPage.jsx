@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import { useNavigate } from 'react-router-dom';
-import Api from '../Api/Api'
+import { useNavigate, useLocation } from 'react-router-dom';
+import Api from '../Api/Api';
 
 function randomID(len = 5) {
   let result = '';
@@ -36,7 +36,7 @@ const RatingPrompt = styled.div`
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
+
   .star-container {
     display: flex;
     margin: 1rem 0;
@@ -48,7 +48,7 @@ const RatingPrompt = styled.div`
     cursor: pointer;
     transition: color 0.2s;
   }
-  
+
   .star.selected,
   .star:hover {
     color: #f39c12;
@@ -71,16 +71,19 @@ export default function CallPage({ Chats }) {
   const [rating, setRating] = useState('');
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
-  const roomID = getUrlParams().get('roomID') || randomID(5);
+  const location = useLocation(); // Hook to track URL changes
   const callContainerRef = useRef(null);
   const navigate = useNavigate();
+
+  // Extract roomID from URL or generate a new one
+  const roomID = getUrlParams(location.search).get('roomID') || randomID(5);
 
   const startCall = (element) => {
     const appID = 1152851638;
     const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
     const userID = randomID(5);
     const userName = randomID(5);
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName); 
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
     zp.joinRoom({
@@ -88,7 +91,7 @@ export default function CallPage({ Chats }) {
       sharedLinks: [
         {
           name: 'Personal link',
-          url: `${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID}`,
+          url: `${window.location.protocol}//${window.location.host}${location.pathname}?roomID=${roomID}`,
         },
       ],
       scenario: {
@@ -99,7 +102,6 @@ export default function CallPage({ Chats }) {
       },
       onLeaveRoom: () => {
         console.log('Call ended at:', Date.now());
-        // Check user role after the call ends
         const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
         if (userDetails && userDetails.role === 'client') {
           setShowRatingPrompt(true);
@@ -114,7 +116,7 @@ export default function CallPage({ Chats }) {
     if (callContainerRef.current) {
       startCall(callContainerRef.current);
     }
-  }, [callContainerRef]);
+  }, [callContainerRef, roomID, location.pathname]); // Trigger effect when roomID or URL changes
 
   const handleStarClick = (value) => {
     setSelectedRating(value);
@@ -122,7 +124,6 @@ export default function CallPage({ Chats }) {
 
   const handleRatingSubmit = async () => {
     try {
-      // Send the rating to the API
       await Api.patch(`/update/rating/${Chats._id}`, { rating: selectedRating });
       alert(`Rating submitted: ${selectedRating}`);
     } catch (error) {
@@ -131,7 +132,6 @@ export default function CallPage({ Chats }) {
     }
     setRating(selectedRating);
     setShowRatingPrompt(false);
-    // Redirect to the '/client' page
     navigate('/client');
   };
 
