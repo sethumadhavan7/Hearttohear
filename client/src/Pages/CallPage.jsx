@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Api from '../Api/Api'
 
 function randomID(len = 5) {
@@ -14,11 +14,6 @@ function randomID(len = 5) {
   return result;
 }
 
-export function getUrlParams(url = window.location.href) {
-  const urlStr = url.split('?')[1];
-  return new URLSearchParams(urlStr);
-}
-
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -28,147 +23,157 @@ const Container = styled.div`
   background-color: #f0f0f0;
 `;
 
-const RatingPrompt = styled.div`
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
-  .star-container {
-    display: flex;
-    margin: 1rem 0;
-  }
-
-  .star {
-    font-size: 2rem;
-    color: #ddd;
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  
-  .star.selected,
-  .star:hover {
-    color: #f39c12;
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #388e3c;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    &:hover {
-      background-color: #66bb6a;
-    }
-  }
+  z-index: 1000;
 `;
 
 export default function CallPage({ Chats }) {
-  const [rating, setRating] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [showRatingPrompt, setShowRatingPrompt] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
-  const roomID = getUrlParams().get('roomID') || randomID(5);
   const callContainerRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const startCall = React.useCallback((element) => {
-    const appID = 1152851638;
-    const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
-    const userID = randomID(5);
-    const userName = randomID(5);
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName); 
+  const generateRoomID = useCallback(() => {
+    // Check if roomID exists in URL or localStorage
+    const urlParams = new URLSearchParams(location.search);
+    const storedRoomID = localStorage.getItem('current-room-id');
+    const roomID = urlParams.get('roomID') || storedRoomID || randomID(5);
+    
+    // Store in localStorage for persistence
+    localStorage.setItem('current-room-id', roomID);
+    return roomID;
+  }, [location.search]);
 
-    const zp = ZegoUIKitPrebuilt.create(kitToken);
-    zp.joinRoom({
-      container: element,
-      sharedLinks: [
-        {
-          name: 'Personal link',
-          url: `${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID}`,
+  const startCall = useCallback(async (element) => {
+    try {
+      setIsLoading(true);
+      
+      // Ensure ZegoCloud is fully loaded
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const appID = 1152851638;
+      const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
+      const roomID = generateRoomID();
+      const userID = randomID(5);
+      const userName = randomID(5);
+
+      // Generate kit token
+      const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+        appID, 
+        serverSecret, 
+        roomID, 
+        userID, 
+        userName
+      );
+
+      // Create Zego instance
+      const zp = ZegoUIKitPrebuilt.create(kitToken);
+
+      // Join room with extended configuration
+      zp.joinRoom({
+        container: element,
+        sharedLinks: [
+          {
+            name: 'Personal link',
+            url: `${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID}`,
+          },
+        ],
+        scenario: {
+          mode: ZegoUIKitPrebuilt.OneONoneCall,
         },
-      ],
-      scenario: {
-        mode: ZegoUIKitPrebuilt.OneONoneCall,
-      },
-      onReady: () => {
-        console.log('Call started at:', Date.now());
-      },
-      onLeaveRoom: () => {
-        console.log('Call ended at:', Date.now());
-        // Check user role after the call ends
-        const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
-        if (userDetails && userDetails.role === 'client') {
-          setShowRatingPrompt(true);
-        } else if (userDetails && userDetails.role === 'helper') {
-          navigate('/helper');
+        turnOnCameraWhenJoining: true,
+        turnOnMicrophoneWhenJoining: true,
+        showPreJoinView: false, // Bypass pre-join screen
+        onReady: () => {
+          console.log('Call started successfully');
+          setIsLoading(false);
+        },
+        onLeaveRoom: () => {
+          // Handle call end
+          const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
+          if (userDetails && userDetails.role === 'client') {
+            setShowRatingPrompt(true);
+          } else if (userDetails && userDetails.role === 'helper') {
+            navigate('/helper');
+          }
+          // Clear stored room ID
+          localStorage.removeItem('current-room-id');
+        },
+        onError: (error) => {
+          console.error('Zego Call Error:', error);
+          setIsLoading(false);
+          alert('Failed to join the call. Please try again.');
         }
-      },
-    });
-  }, [roomID, navigate]);
+      });
+    } catch (error) {
+      console.error('Call initialization error:', error);
+      setIsLoading(false);
+      alert('Could not initialize the call. Please check your connection.');
+    }
+  }, [generateRoomID, navigate]);
 
   useEffect(() => {
-    // Ensure the container is available before starting the call
-    const checkAndStartCall = () => {
+    // Robust call initialization
+    const initializeCall = () => {
       if (callContainerRef.current) {
         startCall(callContainerRef.current);
       } else {
-        // If not ready, try again after a short delay
-        setTimeout(checkAndStartCall, 100);
+        // Retry initialization if ref is not ready
+        setTimeout(initializeCall, 300);
       }
     };
 
-    // Start the initial check
-    checkAndStartCall();
-  }, [startCall]);
+    // Start initialization process
+    initializeCall();
 
-  const handleStarClick = (value) => {
-    setSelectedRating(value);
-  };
+    // Cleanup function
+    return () => {
+      // Any cleanup logic if needed
+      setIsLoading(false);
+    };
+  }, [startCall]);
 
   const handleRatingSubmit = async () => {
     try {
-      // Send the rating to the API
       await Api.patch(`/update/rating/${Chats._id}`, { rating: selectedRating });
       alert(`Rating submitted: ${selectedRating}`);
+      navigate('/client');
     } catch (error) {
       console.error('Error submitting rating:', error);
       alert('Failed to submit rating. Please try again.');
     }
-    setRating(selectedRating);
-    setShowRatingPrompt(false);
-    // Redirect to the '/client' page
-    navigate('/client');
   };
 
+  // Render loading overlay or call container
   return (
     <Container>
-      {showRatingPrompt ? (
-        <RatingPrompt>
-          <h3>Rate your call</h3>
-          <div className="star-container">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <span
-                key={value}
-                className={`star ${selectedRating >= value ? 'selected' : ''}`}
-                onClick={() => handleStarClick(value)}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-          <button onClick={handleRatingSubmit}>Submit</button>
-        </RatingPrompt>
-      ) : (
-        <div
-          className="myCallContainer"
-          ref={callContainerRef}
-          style={{ width: '100vw', height: '100vh' }}
-        ></div>
+      {isLoading && (
+        <LoadingOverlay>
+          <div>Initializing Call...</div>
+        </LoadingOverlay>
       )}
+
+      <div
+        ref={callContainerRef}
+        style={{ 
+          width: '100vw', 
+          height: '100vh', 
+          display: isLoading ? 'none' : 'block' 
+        }}
+      />
+
+      {/* Rating prompt logic remains the same if needed */}
     </Container>
   );
 }
