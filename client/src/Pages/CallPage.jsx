@@ -1,179 +1,155 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import styled from 'styled-components';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Api from '../Api/Api'
 
-function randomID(len = 5) {
-  let result = '';
-  const chars = '12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP';
-  const maxPos = chars.length;
-  for (let i = 0; i < len; i++) {
-    result += chars.charAt(Math.floor(Math.random() * maxPos));
-  }
-  return result;
-}
+// Debugging utility
+const createLogger = (prefix) => ({
+  log: (...args) => console.log(`[${prefix}]`, ...args),
+  error: (...args) => console.error(`[${prefix}]`, ...args)
+});
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-`;
-
-const LoadingOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
+const logger = createLogger('CallPage');
 
 export default function CallPage({ Chats }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [showRatingPrompt, setShowRatingPrompt] = useState(false);
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [callError, setCallError] = useState(null);
   const callContainerRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Robust room ID generation
   const generateRoomID = useCallback(() => {
-    // Check if roomID exists in URL or localStorage
     const urlParams = new URLSearchParams(location.search);
-    const storedRoomID = localStorage.getItem('current-room-id');
-    const roomID = urlParams.get('roomID') || storedRoomID || randomID(5);
+    const roomIDFromURL = urlParams.get('roomID');
     
-    // Store in localStorage for persistence
-    localStorage.setItem('current-room-id', roomID);
-    return roomID;
+    logger.log('Room ID Generation', {
+      urlRoomID: roomIDFromURL,
+      storedRoomID: localStorage.getItem('callRoomID')
+    });
+
+    return roomIDFromURL || 
+           localStorage.getItem('callRoomID') || 
+           `room_${Math.random().toString(36).substr(2, 9)}`;
   }, [location.search]);
 
-  const startCall = useCallback(async (element) => {
+  const initializeZegoCall = useCallback(async (container) => {
     try {
-      setIsLoading(true);
+      logger.log('Starting Zego Call Initialization');
       
-      // Ensure ZegoCloud is fully loaded
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      const appID = 1152851638;
-      const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
+      // Configuration parameters (REPLACE WITH YOUR ACTUAL CREDENTIALS)
+      const APP_ID = 1152851638;
+      const SERVER_SECRET = 'cb35e6c20ae9bd567e594464f548d4d2';
+      
+      // Generate unique identifiers
       const roomID = generateRoomID();
-      const userID = randomID(5);
-      const userName = randomID(5);
+      const userID = `user_${Math.random().toString(36).substr(2, 9)}`;
+      const userName = `User_${Math.floor(Math.random() * 1000)}`;
 
-      // Generate kit token
+      // Persist room ID
+      localStorage.setItem('callRoomID', roomID);
+      logger.log('Generated IDs', { roomID, userID, userName });
+
+      // Generate Kit Token
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-        appID, 
-        serverSecret, 
+        APP_ID, 
+        SERVER_SECRET, 
         roomID, 
         userID, 
         userName
       );
 
-      // Create Zego instance
+      // Create Zego instance with extensive configuration
       const zp = ZegoUIKitPrebuilt.create(kitToken);
 
-      // Join room with extended configuration
+      // Advanced room joining configuration
       zp.joinRoom({
-        container: element,
-        sharedLinks: [
-          {
-            name: 'Personal link',
-            url: `${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID}`,
-          },
-        ],
+        container: container,
         scenario: {
           mode: ZegoUIKitPrebuilt.OneONoneCall,
         },
+        showPreJoinView: false,
         turnOnCameraWhenJoining: true,
         turnOnMicrophoneWhenJoining: true,
-        showPreJoinView: false, // Bypass pre-join screen
-        onReady: () => {
-          console.log('Call started successfully');
+        
+        // Detailed event handlers for debugging
+        onReady: (userInfo) => {
+          logger.log('Call Ready', userInfo);
           setIsLoading(false);
         },
         onLeaveRoom: () => {
-          // Handle call end
-          const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
-          if (userDetails && userDetails.role === 'client') {
-            setShowRatingPrompt(true);
-          } else if (userDetails && userDetails.role === 'helper') {
-            navigate('/helper');
-          }
-          // Clear stored room ID
-          localStorage.removeItem('current-room-id');
+          logger.log('Left Room');
+          localStorage.removeItem('callRoomID');
+          // Add your post-call logic here
         },
         onError: (error) => {
-          console.error('Zego Call Error:', error);
+          logger.error('Zego Call Error', error);
+          setCallError(error);
           setIsLoading(false);
-          alert('Failed to join the call. Please try again.');
         }
       });
+
     } catch (error) {
-      console.error('Call initialization error:', error);
+      logger.error('Initialization Failed', error);
+      setCallError(error);
       setIsLoading(false);
-      alert('Could not initialize the call. Please check your connection.');
     }
-  }, [generateRoomID, navigate]);
+  }, [generateRoomID]);
 
   useEffect(() => {
-    // Robust call initialization
-    const initializeCall = () => {
+    const safeInitializeCall = () => {
       if (callContainerRef.current) {
-        startCall(callContainerRef.current);
+        logger.log('Container Ref Available, Initializing Call');
+        initializeZegoCall(callContainerRef.current);
       } else {
-        // Retry initialization if ref is not ready
-        setTimeout(initializeCall, 300);
+        logger.error('Container Ref Not Available');
+        setCallError(new Error('Container not found'));
       }
     };
 
-    // Start initialization process
-    initializeCall();
+    // Multiple initialization strategies
+    const initializationStrategies = [
+      () => setTimeout(safeInitializeCall, 100),
+      () => window.addEventListener('load', safeInitializeCall),
+      () => document.readyState === 'complete' && safeInitializeCall()
+    ];
 
-    // Cleanup function
+    initializationStrategies.forEach(strategy => strategy());
+
     return () => {
-      // Any cleanup logic if needed
-      setIsLoading(false);
+      window.removeEventListener('load', safeInitializeCall);
     };
-  }, [startCall]);
+  }, [initializeZegoCall]);
 
-  const handleRatingSubmit = async () => {
-    try {
-      await Api.patch(`/update/rating/${Chats._id}`, { rating: selectedRating });
-      alert(`Rating submitted: ${selectedRating}`);
-      navigate('/client');
-    } catch (error) {
-      console.error('Error submitting rating:', error);
-      alert('Failed to submit rating. Please try again.');
-    }
-  };
-
-  // Render loading overlay or call container
+  // Render with extensive error handling and loading states
   return (
-    <Container>
-      {isLoading && (
-        <LoadingOverlay>
-          <div>Initializing Call...</div>
-        </LoadingOverlay>
+    <div style={{ 
+      width: '100vw', 
+      height: '100vh', 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      backgroundColor: isLoading ? '#f0f2f5' : 'transparent'
+    }}>
+      {isLoading && <div>Initializing Call...</div>}
+      
+      {callError && (
+        <div style={{ color: 'red', textAlign: 'center' }}>
+          <h2>Call Initialization Error</h2>
+          <p>{callError.message}</p>
+          <button onClick={() => window.location.reload()}>
+            Retry
+          </button>
+        </div>
       )}
 
-      <div
-        ref={callContainerRef}
+      <div 
+        ref={callContainerRef} 
         style={{ 
-          width: '100vw', 
-          height: '100vh', 
-          display: isLoading ? 'none' : 'block' 
-        }}
+          width: '100%', 
+          height: '100%', 
+          display: isLoading || callError ? 'none' : 'block' 
+        }} 
       />
-
-      {/* Rating prompt logic remains the same if needed */}
-    </Container>
+    </div>
   );
 }
