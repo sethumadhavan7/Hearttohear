@@ -19,16 +19,16 @@ export function getUrlParams(url = window.location.href) {
   return new URLSearchParams(urlStr);
 }
 
-const Container = styled.div
+const Container = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
-;
+`;
 
-const RatingPrompt = styled.div
+const RatingPrompt = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +65,7 @@ const RatingPrompt = styled.div
       background-color: #66bb6a;
     }
   }
-;
+`;
 
 export default function CallPage({ Chats }) {
   const [rating, setRating] = useState('');
@@ -75,7 +75,7 @@ export default function CallPage({ Chats }) {
   const callContainerRef = useRef(null);
   const navigate = useNavigate();
 
-  const startCall = (element) => {
+  const startCall = React.useCallback((element) => {
     const appID = 1152851638;
     const serverSecret = 'cb35e6c20ae9bd567e594464f548d4d2';
     const userID = randomID(5);
@@ -88,7 +88,7 @@ export default function CallPage({ Chats }) {
       sharedLinks: [
         {
           name: 'Personal link',
-          url: ${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID},
+          url: `${window.location.protocol}//${window.location.host}/#/test${window.location.pathname}?roomID=${roomID}`,
         },
       ],
       scenario: {
@@ -108,13 +108,22 @@ export default function CallPage({ Chats }) {
         }
       },
     });
-  };
+  }, [roomID, navigate]);
 
   useEffect(() => {
-    if (callContainerRef.current) {
-      startCall(callContainerRef.current);
-    }
-  }, [callContainerRef]);
+    // Ensure the container is available before starting the call
+    const checkAndStartCall = () => {
+      if (callContainerRef.current) {
+        startCall(callContainerRef.current);
+      } else {
+        // If not ready, try again after a short delay
+        setTimeout(checkAndStartCall, 100);
+      }
+    };
+
+    // Start the initial check
+    checkAndStartCall();
+  }, [startCall]);
 
   const handleStarClick = (value) => {
     setSelectedRating(value);
@@ -123,8 +132,8 @@ export default function CallPage({ Chats }) {
   const handleRatingSubmit = async () => {
     try {
       // Send the rating to the API
-      await Api.patch(/update/rating/${Chats._id}, { rating: selectedRating });
-      alert(Rating submitted: ${selectedRating});
+      await Api.patch(`/update/rating/${Chats._id}`, { rating: selectedRating });
+      alert(`Rating submitted: ${selectedRating}`);
     } catch (error) {
       console.error('Error submitting rating:', error);
       alert('Failed to submit rating. Please try again.');
@@ -144,7 +153,7 @@ export default function CallPage({ Chats }) {
             {[1, 2, 3, 4, 5].map((value) => (
               <span
                 key={value}
-                className={star ${selectedRating >= value ? 'selected' : ''}}
+                className={`star ${selectedRating >= value ? 'selected' : ''}`}
                 onClick={() => handleStarClick(value)}
               >
                 ★
@@ -162,4 +171,4 @@ export default function CallPage({ Chats }) {
       )}
     </Container>
   );
-}  
+}
