@@ -116,14 +116,14 @@ const Image = styled.img`
 
 const FloatingCube = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(128, 255, 128, 0.1); /* Light Green */
+  width: 80px; 
+  height: 80px; 
+  background-color: rgba(128, 255, 128, 0.1); 
   border: 1px solid rgba(128, 255, 128, 0.5); 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transform: rotate(45deg); 
-  animation: float 3s infinite ease-in-out; 
+  animation: float 5s infinite ease-in-out; 
 `;
 
 const float = keyframes`
@@ -131,13 +131,13 @@ const float = keyframes`
     transform: translateX(0) translateY(0) rotate(45deg);
   }
   25% {
-    transform: translateX(20px) translateY(10px) rotate(45deg);
+    transform: translateX(50px) translateY(20px) rotate(45deg);
   }
   50% {
-    transform: translateX(0) translateY(20px) rotate(45deg);
+    transform: translateX(0) translateY(40px) rotate(45deg);
   }
   75% {
-    transform: translateX(-20px) translateY(10px) rotate(45deg);
+    transform: translateX(-50px) translateY(20px) rotate(45deg);
   }
   100% {
     transform: translateX(0) translateY(0) rotate(45deg);
@@ -145,15 +145,16 @@ const float = keyframes`
 `;
 
 const FloatingCubes = () => {
-  // Create an array to store positions for multiple cubes
   const cubePositions = [
-    { top: '20%', left: '10%' },
-    { top: '50%', right: '20%' },
-    { bottom: '20%', left: '30%' },
-    { top: '10%', right: '10%' },
-    { bottom: '10%', right: '30%' },
-    { top: '30%', left: '20%' },
-    // Add more positions as needed
+    { top: '10%', left: '10%' },
+    { top: '25%', left: '30%' },
+    { top: '40%', left: '10%' },
+    { top: '55%', left: '30%' },
+    { top: '70%', left: '10%' },
+    { top: '20%', right: '10%' },
+    { top: '35%', right: '30%' },
+    { top: '50%', right: '10%' },
+    { top: '65%', right: '30%' },
   ];
 
   return (
