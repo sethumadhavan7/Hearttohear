@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
+import happy from '../img/happy.png';
+import alone from '../img/alone.png';
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
@@ -10,29 +12,23 @@ const Homepage = () => {
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
       </Nav>
-      <BlockChainEffect>
-        {/* Add 3D cubes and chain animations */}
-        {Array(10).fill(0).map((_, index) => (
-          <Cube key={index} />
-        ))}
-      </BlockChainEffect>
       <Section>
         <Text>
-          <h2>Why face it alone?<br />Connect, share,<br />heal.</h2>
+          <h2>Why face it alone?<br />Connect, share,<br/> heal.</h2>
         </Text>
         <Image src={mental} alt="mental health" />
       </Section>
+      <FloatingCubes /> 
     </Container>
   );
-};
-
-// Styled Components
+}
 
 const Container = styled.div`
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
   color: #333;
   padding: 20px;
-  position: relative; /* Ensure that the position is relative for stacking content */
+  position: relative; /* Add position relative to allow absolute positioning of cubes */
+  overflow: hidden; /* Hide overflowing cubes */
 `;
 
 const Nav = styled.nav`
@@ -71,14 +67,16 @@ const Section = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 2; /* Ensure content sits on top of the cubes */
+
+  &:nth-child(odd) {
+    background-color: #e8f5e9;
+  }
 `;
 
 const Text = styled.div`
   flex: 1;
   padding: 20px;
-  
+
   h2 {
     margin: 0;
     font-size: 80px;
@@ -100,18 +98,6 @@ const bounce = keyframes`
   }
 `;
 
-const move = keyframes`
-  0% {
-    transform: translateX(100%) translateY(100%) rotate(0deg);
-  }
-  50% {
-    transform: translateX(0) translateY(0) rotate(180deg);
-  }
-  100% {
-    transform: translateX(-100%) translateY(-100%) rotate(360deg);
-  }
-`;
-
 const Image = styled.img`
   flex: 1;
   max-width: 40%;
@@ -129,29 +115,39 @@ const Image = styled.img`
   }
 `;
 
-const BlockChainEffect = styled.div`
+const FloatingCube = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3; /* Ensuring cubes appear above other content */
-  pointer-events: none; /* Allow interaction with website */
+  width: 80px;
+  height: 80px;
+  background-color: rgba(128, 255, 128, 0.1); 
+  border: 1px solid rgba(128, 255, 128, 0.5); 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  transform: rotate(45deg); 
+  animation: float 10s infinite linear; 
 `;
 
-const Cube = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background-color: rgba(144, 238, 144, 0.7); /* Light green with transparency */
-  border-radius: 5px;
-  box-shadow: 0 0 15px rgba(144, 238, 144, 0.8);
-  transform: rotate(45deg); /* Make it look like a 3D cube */
-  animation: ${move} 15s linear infinite;
-  top: ${(props) => Math.random() * 100}%;
-  left: ${(props) => Math.random() * 100}%;
-  opacity: 0.9;
-  z-index: 2; /* Make sure cubes appear above background, but under content */
+const float = keyframes`
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100vw, 100vh); } 
 `;
+
+const FloatingCubes = () => {
+  const cubeCount = 10; // Adjust the number of cubes
+
+  return (
+    <>
+      {[...Array(cubeCount)].map((_, index) => (
+        <FloatingCube 
+          key={index} 
+          style={{ 
+            top: `${Math.random() * 100}%`, 
+            left: `${Math.random() * 100}%` 
+          }} 
+        />
+      ))}
+    </>
+  );
+};
 
 export default Homepage;
