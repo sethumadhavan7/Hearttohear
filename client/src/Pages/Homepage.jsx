@@ -3,28 +3,6 @@ import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import styled, { keyframes } from 'styled-components';
 
-// Keyframes for animation
-const float = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
-const move = keyframes`
-  from {
-    transform: translateX(100vw);
-  }
-  to {
-    transform: translateX(-100vw);
-  }
-`;
-
 const Homepage = () => {
   return (
     <Container>
@@ -32,11 +10,11 @@ const Homepage = () => {
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
       </Nav>
-      <AnimationContainer>
-        <ChainBlock />
-        <ChainBlock />
-        <ChainBlock />
-      </AnimationContainer>
+      <BackgroundAnimation>
+        {Array(15).fill(0).map((_, index) => (
+          <Chain key={index} />
+        ))}
+      </BackgroundAnimation>
       <Section>
         <Text>
           <h2>Why face it alone?<br />Connect, share,<br />heal.</h2>
@@ -115,15 +93,9 @@ const Image = styled.img`
   margin-bottom: 5rem;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: ${float} 3s infinite ease-in-out;
-
-  &:hover {
-    filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
-  }
 `;
 
-// Animation Container
-const AnimationContainer = styled.div`
+const BackgroundAnimation = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -133,16 +105,29 @@ const AnimationContainer = styled.div`
   z-index: -1;
 `;
 
-// ChainBlock Style
-const ChainBlock = styled.div`
+const move = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0.7;
+  }
+`;
+
+const Chain = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 10px;
   background-color: #90ee90;
-  border: 2px solid #66cc66;
+  box-shadow: 0 0 10px #90ee90;
   border-radius: 5px;
-  animation: ${move} 10s linear infinite, ${float} 5s ease-in-out infinite;
+  animation: ${move} 10s linear infinite;
+  transform: rotate(45deg);
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
-  opacity: 0.7;
 `;
