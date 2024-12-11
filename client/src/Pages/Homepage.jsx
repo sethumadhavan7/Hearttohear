@@ -32,7 +32,7 @@ const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   padding: 20px;
-  position: relative;
+  position: relative; /* Ensure that the position is relative for stacking content */
 `;
 
 const Nav = styled.nav`
@@ -135,7 +135,7 @@ const BlockChainEffect = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1; /* Ensure it is behind the content */
+  z-index: 3; /* Ensuring cubes appear above other content */
   pointer-events: none; /* Allow interaction with website */
 `;
 
@@ -151,7 +151,7 @@ const Cube = styled.div`
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
   opacity: 0.9;
-  z-index: 1;
+  z-index: 2; /* Make sure cubes appear above background, but under content */
 `;
 
 export default Homepage;
