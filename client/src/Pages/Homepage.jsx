@@ -11,7 +11,7 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
       <BackgroundAnimation>
-        {/* Create a lot of blocks/chains flowing across */}
+        {/* Create cube blocks flowing across */}
         {Array(20).fill(0).map((_, index) => (
           <Chain key={index} />
         ))}
@@ -95,6 +95,13 @@ const Image = styled.img`
   margin-bottom: 5rem;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
+  animation: bounce 2s infinite ease-in-out;
+
+  transition: filter 0.3s ease-in-out;
+
+  &:hover {
+    filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
+  }
 `;
 
 const BackgroundAnimation = styled.div`
@@ -105,6 +112,18 @@ const BackgroundAnimation = styled.div`
   height: 100%;
   overflow: hidden;
   z-index: 2; /* Ensure it sits above the content */
+`;
+
+const bounce = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 `;
 
 const move = keyframes`
@@ -121,8 +140,8 @@ const move = keyframes`
 
 const Chain = styled.div`
   position: absolute;
-  width: 200px; /* Increased size for larger blocks */
-  height: 30px; /* Larger block height */
+  width: 50px;  /* Cube width */
+  height: 50px; /* Cube height */
   background-color: rgba(144, 238, 144, 0.5); /* Light green with transparency */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
@@ -132,7 +151,7 @@ const Chain = styled.div`
   opacity: 0.8;
   transform: rotate(45deg);
   animation-delay: ${(props) => Math.random() * 5}s; /* Slight delay for varied animation */
-  z-index: 2; /* Ensure blocks are on top of the background */
+  z-index: 2; /* Ensure cubes are on top of the background */
 `;
 
 export default Homepage;
