@@ -3,14 +3,40 @@ import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import styled, { keyframes } from 'styled-components';
 
+// Keyframes for animation
+const float = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const move = keyframes`
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-100vw);
+  }
+`;
+
 const Homepage = () => {
   return (
     <Container>
-      <BackgroundAnimation />
       <Nav>
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
       </Nav>
+      <AnimationContainer>
+        <ChainBlock />
+        <ChainBlock />
+        <ChainBlock />
+      </AnimationContainer>
       <Section>
         <Text>
           <h2>Why face it alone?<br />Connect, share,<br />heal.</h2>
@@ -21,66 +47,13 @@ const Homepage = () => {
   );
 };
 
-const BackgroundAnimation = () => {
-  const blocksAndChains = Array.from({ length: 20 }, (_, index) => ({
-    id: index,
-    type: Math.random() > 0.5 ? 'block' : 'chain',
-    top: Math.random() * 100 + '%',
-    left: Math.random() * 100 + '%',
-  }));
-
-  return (
-    <AnimationContainer>
-      {blocksAndChains.map((item) => (
-        <AnimationItem
-          key={item.id}
-          className={item.type}
-          style={{ top: item.top, left: item.left }}
-        />
-      ))}
-    </AnimationContainer>
-  );
-};
-
+// Styled Components
 const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   padding: 20px;
-  position: relative; /* Added to contain background animation */
-  overflow: hidden; /* Ensures flowing elements stay within bounds */
-`;
-
-const AnimationContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-`;
-
-const floatAnimation = keyframes`
-  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.5; }
-  50% { transform: translateY(-20px) translateX(10px) rotate(45deg); opacity: 1; }
-  100% { transform: translateY(0) translateX(20px) rotate(90deg); opacity: 0.5; }
-`;
-
-const AnimationItem = styled.div`
-  position: absolute;
-  animation: ${floatAnimation} 10s infinite ease-in-out;
-  
-  &.block {
-    width: 20px;
-    height: 20px;
-    background-color: rgba(52, 152, 219, 0.6); /* Light blue */
-    border-radius: 5px;
-  }
-
-  &.chain {
-    width: 4px;
-    height: 40px;
-    background-color: rgba(155, 89, 182, 0.6); /* Light purple */
-  }
+  position: relative;
+  overflow: hidden;
 `;
 
 const Nav = styled.nav`
@@ -114,15 +87,11 @@ const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
+  flex-direction: row;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  &:nth-child(odd) {
-    background-color: #e8f5e9;
-  }
 `;
 
 const Text = styled.div`
@@ -132,21 +101,9 @@ const Text = styled.div`
   h2 {
     margin: 0;
     font-size: 80px;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
     margin-bottom: 10rem;
-  }
-`;
-
-const bounce = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
   }
 `;
 
@@ -158,13 +115,34 @@ const Image = styled.img`
   margin-bottom: 5rem;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: ${bounce} 2s infinite ease-in-out;
-
-  transition: filter 0.3s ease-in-out;
+  animation: ${float} 3s infinite ease-in-out;
 
   &:hover {
     filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
   }
 `;
 
-export default Homepage;
+// Animation Container
+const AnimationContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+`;
+
+// ChainBlock Style
+const ChainBlock = styled.div`
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #90ee90;
+  border: 2px solid #66cc66;
+  border-radius: 5px;
+  animation: ${move} 10s linear infinite, ${float} 5s ease-in-out infinite;
+  top: ${(props) => Math.random() * 100}%;
+  left: ${(props) => Math.random() * 100}%;
+  opacity: 0.7;
+`;
