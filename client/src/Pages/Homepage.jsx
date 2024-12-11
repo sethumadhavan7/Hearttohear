@@ -11,7 +11,8 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
       <BackgroundAnimation>
-        {Array(15).fill(0).map((_, index) => (
+        {/* Add many blocks/chains flowing across */}
+        {Array(10).fill(0).map((_, index) => (
           <Chain key={index} />
         ))}
       </BackgroundAnimation>
@@ -107,27 +108,29 @@ const BackgroundAnimation = styled.div`
 
 const move = keyframes`
   0% {
-    transform: translateY(-100%);
-    opacity: 0.7;
+    transform: translateX(100%);
   }
   50% {
-    opacity: 1;
+    transform: translateX(0);
   }
   100% {
-    transform: translateY(100%);
-    opacity: 0.7;
+    transform: translateX(-100%);
   }
 `;
 
 const Chain = styled.div`
   position: absolute;
-  width: 60px;
-  height: 10px;
-  background-color: #90ee90;
-  box-shadow: 0 0 10px #90ee90;
-  border-radius: 5px;
-  animation: ${move} 10s linear infinite;
-  transform: rotate(45deg);
+  width: 200px;  /* Increased size for larger blocks */
+  height: 30px;  /* Larger block height */
+  background-color: rgba(144, 238, 144, 0.5); /* Light green with transparency */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
+  animation: ${move} 15s linear infinite;
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
+  opacity: 0.8;
+  transform: rotate(45deg);
+  animation-delay: ${(props) => Math.random() * 5}s; /* Slight delay for varied animation */
 `;
+
+export default Homepage;
