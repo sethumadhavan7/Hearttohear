@@ -10,12 +10,12 @@ const Homepage = () => {
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
       </Nav>
-      <BackgroundAnimation>
+      <BlockChainEffect>
         {/* Add 3D cubes and chain animations */}
         {Array(10).fill(0).map((_, index) => (
-          <Chain key={index} />
+          <Cube key={index} />
         ))}
-      </BackgroundAnimation>
+      </BlockChainEffect>
       <Section>
         <Text>
           <h2>Why face it alone?<br />Connect, share,<br />heal.</h2>
@@ -33,7 +33,6 @@ const Container = styled.div`
   color: #333;
   padding: 20px;
   position: relative;
-  overflow: hidden;
 `;
 
 const Nav = styled.nav`
@@ -73,7 +72,7 @@ const Section = styled.div`
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 2; /* Ensure it sits on top of the animation */
+  z-index: 2; /* Ensure content sits on top of the cubes */
 `;
 
 const Text = styled.div`
@@ -101,15 +100,15 @@ const bounce = keyframes`
   }
 `;
 
-const cubeMove = keyframes`
+const move = keyframes`
   0% {
-    transform: translateX(100%) translateY(100%) rotateX(0) rotateY(0);
+    transform: translateX(100%) translateY(100%) rotate(0deg);
   }
   50% {
-    transform: translateX(0) translateY(0) rotateX(180deg) rotateY(180deg);
+    transform: translateX(0) translateY(0) rotate(180deg);
   }
   100% {
-    transform: translateX(-100%) translateY(-100%) rotateX(360deg) rotateY(360deg);
+    transform: translateX(-100%) translateY(-100%) rotate(360deg);
   }
 `;
 
@@ -130,30 +129,29 @@ const Image = styled.img`
   }
 `;
 
-const BackgroundAnimation = styled.div`
+const BlockChainEffect = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  z-index: 1; /* Ensure it sits behind the content */
+  z-index: 1; /* Ensure it is behind the content */
   pointer-events: none; /* Allow interaction with website */
 `;
 
-const Chain = styled.div`
+const Cube = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: rgba(144, 238, 144, 0.7); /* Light green with transparency */
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
-  transform: rotate(45deg);
-  animation: ${cubeMove} 15s linear infinite;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(144, 238, 144, 0.8);
+  transform: rotate(45deg); /* Make it look like a 3D cube */
+  animation: ${move} 15s linear infinite;
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
   opacity: 0.9;
-  z-index: 2;
+  z-index: 1;
 `;
 
 export default Homepage;
