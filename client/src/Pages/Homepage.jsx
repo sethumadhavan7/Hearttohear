@@ -9,7 +9,7 @@ const Homepage = () => {
       <Nav>
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
-      </Nav>
+      </Nav> 
       <BackgroundAnimation>
         {/* Create 3D cubes and chain blocks */}
         {Array(10).fill(0).map((_, index) => (
