@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import mental from '../img/mental.png';
+import mental from '../img/mental.png';  // Ensure this path is correct
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
@@ -96,7 +96,7 @@ const Image = styled.img`
   margin-bottom: 5rem;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: bounce 2s infinite ease-in-out;
+  animation: ${bounce} 2s infinite ease-in-out; /* Bouncing effect */
 
   transition: filter 0.3s ease-in-out;
 
