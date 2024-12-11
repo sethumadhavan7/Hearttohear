@@ -11,7 +11,7 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
       <BackgroundAnimation>
-        {/* Add 3D blocks and chain animations */}
+        {/* Add 3D cubes and chain animations */}
         {Array(10).fill(0).map((_, index) => (
           <Chain key={index} />
         ))}
@@ -101,7 +101,7 @@ const bounce = keyframes`
   }
 `;
 
-const move = keyframes`
+const cubeMove = keyframes`
   0% {
     transform: translateX(100%) translateY(100%) rotateX(0) rotateY(0);
   }
@@ -149,7 +149,7 @@ const Chain = styled.div`
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
   transform: rotate(45deg);
-  animation: ${move} 15s linear infinite;
+  animation: ${cubeMove} 15s linear infinite;
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
   opacity: 0.9;
