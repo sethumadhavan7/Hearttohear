@@ -11,8 +11,8 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
       <BackgroundAnimation>
-        {/* Create cube blocks flowing across */}
-        {Array(20).fill(0).map((_, index) => (
+        {/* Create 3D cubes and chain blocks */}
+        {Array(10).fill(0).map((_, index) => (
           <Chain key={index} />
         ))}
       </BackgroundAnimation>
@@ -24,7 +24,7 @@ const Homepage = () => {
       </Section>
     </Container>
   );
-}
+};
 
 // Styled Components
 const Container = styled.div`
@@ -71,7 +71,8 @@ const Section = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Ensures it sits on top of animation */
+  position: relative;
+  z-index: 2; /* Ensure it sits on top of animation */
 `;
 
 const Text = styled.div`
@@ -111,7 +112,8 @@ const BackgroundAnimation = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 2; /* Ensure it sits above the content */
+  z-index: 1; /* Ensure it sits behind the content */
+  pointer-events: none; /* Ensure interaction with website is not blocked */
 `;
 
 const bounce = keyframes`
@@ -128,30 +130,29 @@ const bounce = keyframes`
 
 const move = keyframes`
   0% {
-    transform: translateX(100%) translateY(100%);
+    transform: translateX(100%) translateY(100%) rotateX(0) rotateY(0);
   }
   50% {
-    transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0) rotateX(180deg) rotateY(180deg);
   }
   100% {
-    transform: translateX(-100%) translateY(-100%);
+    transform: translateX(-100%) translateY(-100%) rotateX(360deg) rotateY(360deg);
   }
 `;
 
 const Chain = styled.div`
   position: absolute;
-  width: 50px;  /* Cube width */
-  height: 50px; /* Cube height */
-  background-color: rgba(144, 238, 144, 0.5); /* Light green with transparency */
+  width: 50px;
+  height: 50px;
+  background-color: rgba(144, 238, 144, 0.7); /* Light green with transparency */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
+  transform: rotate(45deg);
   animation: ${move} 15s linear infinite;
   top: ${(props) => Math.random() * 100}%;
   left: ${(props) => Math.random() * 100}%;
-  opacity: 0.8;
-  transform: rotate(45deg);
-  animation-delay: ${(props) => Math.random() * 5}s; /* Slight delay for varied animation */
-  z-index: 2; /* Ensure cubes are on top of the background */
+  opacity: 0.9;
+  z-index: 2;
 `;
 
 export default Homepage;
