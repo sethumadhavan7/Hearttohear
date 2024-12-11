@@ -24,7 +24,7 @@ const Homepage = () => {
       </Section>
     </Container>
   );
-}
+};
 
 // Styled Components
 
