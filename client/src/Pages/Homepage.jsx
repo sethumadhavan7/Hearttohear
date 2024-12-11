@@ -11,8 +11,8 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
       <BackgroundAnimation>
-        {/* Add many blocks/chains flowing across */}
-        {Array(10).fill(0).map((_, index) => (
+        {/* Create a lot of blocks/chains flowing across */}
+        {Array(20).fill(0).map((_, index) => (
           <Chain key={index} />
         ))}
       </BackgroundAnimation>
@@ -24,7 +24,7 @@ const Homepage = () => {
       </Section>
     </Container>
   );
-};
+}
 
 // Styled Components
 const Container = styled.div`
@@ -104,25 +104,25 @@ const BackgroundAnimation = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 1; /* Ensure it sits above other content */
+  z-index: 2; /* Ensure it sits above the content */
 `;
 
 const move = keyframes`
   0% {
-    transform: translateX(100%);
+    transform: translateX(100%) translateY(100%);
   }
   50% {
-    transform: translateX(0);
+    transform: translateX(0) translateY(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-100%) translateY(-100%);
   }
 `;
 
 const Chain = styled.div`
   position: absolute;
-  width: 200px;  /* Increased size for larger blocks */
-  height: 30px;  /* Larger block height */
+  width: 200px; /* Increased size for larger blocks */
+  height: 30px; /* Larger block height */
   background-color: rgba(144, 238, 144, 0.5); /* Light green with transparency */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(144, 238, 144, 0.8);
