@@ -71,6 +71,7 @@ const Section = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Ensures it sits on top of animation */
 `;
 
 const Text = styled.div`
@@ -103,7 +104,7 @@ const BackgroundAnimation = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1; /* Ensure it sits above other content */
 `;
 
 const move = keyframes`
@@ -131,6 +132,7 @@ const Chain = styled.div`
   opacity: 0.8;
   transform: rotate(45deg);
   animation-delay: ${(props) => Math.random() * 5}s; /* Slight delay for varied animation */
+  z-index: 2; /* Ensure blocks are on top of the background */
 `;
 
 export default Homepage;
