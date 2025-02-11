@@ -20,7 +20,7 @@ const server = app.listen(PORT, () => {
 const io = socket(server, {
   cors: {
     origin: 'https://hearttohear-frontend.onrender.com/',
-    methods: ["GET", "POST"],
+    methods: ['GET', 'POST'],
   },
 });
 
