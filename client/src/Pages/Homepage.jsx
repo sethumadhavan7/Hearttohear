@@ -15,7 +15,7 @@ const Homepage = () => {
       <Section>
         <Text>
           <h2>sleepsense<br />Connect, share,<br/> heal.</h2>
-          <p>Intelligent Wristband for Sleep Tracking & Health Advice</p>
+          <p>Intelligent Wristband for Sleep Tracking & health Advice</p>
         </Text>
         <Image src={mental} alt="mental health" />
       </Section>
