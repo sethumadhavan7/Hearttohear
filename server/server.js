@@ -26,16 +26,16 @@ const io = socket(server, {
 
 global.onlineUsers = new Map();
 
-io.on("connection", (socket) => {
+io.on('connection', (socket) => {
   global.chatSocket = socket;
 
-  socket.on("add-user", (userId) => {
+  socket.on('add-user', (userId) => {
     onlineUsers.set(userId, socket.id);
   });
   socket.on("send-msg", async (data) => {
     const sendUserSocket = await onlineUsers.get(data.to);
     if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", data.message);
+      socket.to(sendUserSocket).emit('msg-recieve', data.message);
     }
   });
 });
@@ -48,7 +48,7 @@ mongoose.connect(process.env.DB_URL).then(() => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/auth", require("./ROUTES/authRoute"));
-app.use("/user", require("./ROUTES/userRoute"));
-app.use("/update", require("./ROUTES/updateRoute"));
-app.use("/messages", require("./ROUTES/messageRoute"));
+app.use('/auth', require('./ROUTES/authRoute'));
+app.use('/user', require('./ROUTES/userRoute'));
+app.use('/update', require('./ROUTES/updateRoute'));
+app.use('/messages', require('./ROUTES/messageRoute'));
