@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import happy from '../img/happy.png';
@@ -18,7 +18,7 @@ const Homepage = () => {
         <Text>
           <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice</h2>
         </Text>
-        <Image src={mental} alt="mental health" />
+        <BouncingImage src={mental} alt="mental health" />
       </Section>
 
       {/* Section 2: Happy */}
@@ -37,22 +37,24 @@ const Homepage = () => {
         <Image src={alone} alt="alone" />
       </Section>
 
-      {/* Floating Background Elements */}
+      {/* Floating Elements for Background Animation */}
       <FloatingElements />
     </Container>
   );
-};
+}
 
+// Container with scrolling enabled
 const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   padding: 20px;
   position: relative;
-  overflow: hidden;
-  min-height: 100vh;
+  overflow: auto; /* Allows scrolling */
+  min-height: 100vh; /* Ensures the page expands */
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
 `;
 
+// Navigation bar
 const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
@@ -73,13 +75,9 @@ const Nav = styled.nav`
       background-color: #218838;
     }
   }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
 `;
 
+// Section layout
 const Section = styled.div`
   display: flex;
   align-items: center;
@@ -98,6 +96,7 @@ const Section = styled.div`
   }
 `;
 
+// Text styles
 const Text = styled.div`
   flex: 1;
   padding: 20px;
@@ -107,7 +106,6 @@ const Text = styled.div`
     font-size: 80px;
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
-    margin-bottom: 10rem;
   }
 
   h3 {
@@ -118,34 +116,39 @@ const Text = styled.div`
   }
 `;
 
-/* Keyframes for Automatic Jumping */
+// Bouncing effect
 const bounce = keyframes`
   0% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0); }
 `;
 
-/* Image Styling */
+// Meditation image with bouncing effect
+const BouncingImage = styled.img`
+  flex: 1;
+  max-width: 40%;
+  height: auto;
+  border-radius: 10px;
+  border: 5px solid transparent;
+  filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
+  animation: ${bounce} 2s infinite ease-in-out;
+`;
+
+// Normal image
 const Image = styled.img`
   flex: 1;
   max-width: 40%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 5rem;
-  border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-
-  animation: ${bounce} 2s infinite ease-in-out; /* Continuous jumping effect */
-
-  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
     transform: scale(1.1);
-    filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
   }
 `;
 
-/* Floating Elements Animation */
+// Floating background elements
 const float = keyframes`
   0% { transform: translate(0, 0); }
   50% { transform: translate(20px, -20px); }
