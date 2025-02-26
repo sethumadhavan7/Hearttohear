@@ -7,14 +7,24 @@ const Homepage = () => {
   const [cubes, setCubes] = useState([]);
 
   useEffect(() => {
-    const newCubes = Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      size: Math.random() * 60 + 20, // Random size
-      duration: Math.random() * 5 + 5 // Random animation speed
-    }));
-    setCubes(newCubes);
+    const generateCubes = () => {
+      return Array.from({ length: 10 }, (_, i) => ({
+        id: i,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        size: Math.random() * 60 + 20, // Random size
+        duration: Math.random() * 5 + 5, // Random animation speed
+      }));
+    };
+
+    setCubes(generateCubes());
+
+    // Update cube positions every 5 seconds
+    const interval = setInterval(() => {
+      setCubes(generateCubes());
+    }, 5000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   return (
@@ -33,15 +43,15 @@ const Homepage = () => {
         </ImageContainer>
       </Section>
       {cubes.map((cube) => (
-        <FloatingCube 
-          key={cube.id} 
-          style={{ 
-            top: `${cube.top}%`, 
-            left: `${cube.left}%`, 
+        <FloatingCube
+          key={cube.id}
+          style={{
+            top: `${cube.top}%`,
+            left: `${cube.left}%`,
             width: `${cube.size}px`,
             height: `${cube.size}px`,
-            animationDuration: `${cube.duration}s`
-          }} 
+            animationDuration: `${cube.duration}s`,
+          }}
         />
       ))}
     </Container>
@@ -96,7 +106,7 @@ const Section = styled.div`
 const Text = styled.div`
   flex: 1;
   padding: 20px;
-  
+
   h2 {
     margin: 0;
     font-size: 60px;
@@ -141,12 +151,13 @@ const floatAnimation = keyframes`
 
 const FloatingCube = styled.div`
   position: absolute;
-  background-color: rgba(128, 255, 128, 0.2); 
-  border: 1px solid rgba(128, 255, 128, 0.5); 
+  background-color: rgba(128, 255, 128, 0.2);
+  border: 1px solid rgba(128, 255, 128, 0.5);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   transform: rotate(45deg);
   animation: ${floatAnimation} infinite ease-in-out;
+  transition: top 5s linear, left 5s linear; /* Smooth position changes */
 `;
 
 const BackgroundAnimation = styled.div`
