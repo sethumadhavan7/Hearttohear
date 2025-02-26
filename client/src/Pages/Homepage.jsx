@@ -19,7 +19,7 @@ const Homepage = () => {
       {/* Section 1: Mental Health */}
       <Section>
         <Text>
-          <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice</h2>
+          <h2>Sleep Is The<br/>Best Meditation</h2>
         </Text>
         <BouncingImage 
           src={mental} 
