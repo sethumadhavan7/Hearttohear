@@ -1,34 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
-import happy from '../img/happy.png';
-import alone from '../img/alone.png';
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
+  const [cubes, setCubes] = useState([]);
+
+  useEffect(() => {
+    const newCubes = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: Math.random() * 60 + 20, // Random size
+      duration: Math.random() * 5 + 5 // Random animation speed
+    }));
+    setCubes(newCubes);
+  }, []);
+
   return (
     <Container>
+      <BackgroundAnimation />
       <Nav>
-        <Link to="/login"><button>Log In</button></Link>
-        <Link to="/register"><button>Register</button></Link>
+        <Link to="/login"><Button>Log In</Button></Link>
+        <Link to="/register"><Button>Register</Button></Link>
       </Nav>
       <Section>
         <Text>
-          <h2>Sleep Is The<br/>Best Meditation<br/></h2>
+          <h2>Sleep Is The<br />Best Meditation</h2>
         </Text>
-        <Image src={mental} alt="mental health" />
+        <ImageContainer>
+          <AnimatedImage src={mental} alt="mental health" />
+        </ImageContainer>
       </Section>
-      <FloatingCubes /> 
+      {cubes.map((cube) => (
+        <FloatingCube 
+          key={cube.id} 
+          style={{ 
+            top: `${cube.top}%`, 
+            left: `${cube.left}%`, 
+            width: `${cube.size}px`,
+            height: `${cube.size}px`,
+            animationDuration: `${cube.duration}s`
+          }} 
+        />
+      ))}
     </Container>
   );
-}
+};
+
+// Styled Components
 
 const Container = styled.div`
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
-  color: #333;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
   padding: 20px;
-  position: relative; /* Add position relative to allow absolute positioning of cubes */
-  overflow: hidden; /* Hide overflowing cubes */
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+  overflow: hidden;
 `;
 
 const Nav = styled.nav`
@@ -36,25 +65,22 @@ const Nav = styled.nav`
   justify-content: flex-end;
   gap: 10px;
   margin-top: 1rem;
+`;
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+const Button = styled.button`
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #28a745, #218838);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 255, 127, 0.4);
 
-    &:hover {
-      background-color: #218838;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 255, 127, 0.6);
   }
 `;
 
@@ -62,92 +88,78 @@ const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
-  background-color: #fff;
+  flex-direction: row;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  &:nth-child(odd) {
-    background-color: #e8f5e9;
-  }
+  margin-top: 50px;
 `;
 
 const Text = styled.div`
   flex: 1;
   padding: 20px;
-
+  
   h2 {
     margin: 0;
-    font-size: 80px;
+    font-size: 60px;
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
-    margin-bottom: 10rem;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 `;
 
-const bounce = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
-const Image = styled.img`
+const ImageContainer = styled.div`
   flex: 1;
-  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const AnimatedImage = styled.img`
+  max-width: 50%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 5rem;
   border: 5px solid transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: ${bounce} 2s infinite ease-in-out;
-
-  transition: filter 0.3s ease-in-out;
+  filter: drop-shadow(0 0 20px rgba(0, 255, 127, 0.7));
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 
   &:hover {
-    filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 30px rgba(0, 255, 127, 0.9));
   }
+`;
+
+const floatAnimation = keyframes`
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+  100% { transform: translateY(0px) rotate(360deg); }
 `;
 
 const FloatingCube = styled.div`
   position: absolute;
-  width: 80px;
-  height: 80px;
-  background-color: rgba(128, 255, 128, 0.1); 
+  background-color: rgba(128, 255, 128, 0.2); 
   border: 1px solid rgba(128, 255, 128, 0.5); 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  transform: rotate(45deg); 
-  animation: float 10s infinite linear; 
+  border-radius: 10px;
+  transform: rotate(45deg);
+  animation: ${floatAnimation} infinite ease-in-out;
 `;
 
-const float = keyframes`
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(100vw, 100vh); } 
+const BackgroundAnimation = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 90%);
+  animation: backgroundMove 8s infinite alternate ease-in-out;
+  
+  @keyframes backgroundMove {
+    0% { transform: translateY(0px) translateX(0px); }
+    100% { transform: translateY(-30px) translateX(30px); }
+  }
 `;
-
-const FloatingCubes = () => {
-  const cubeCount = 10; // Adjust the number of cubes
-
-  return (
-    <>
-      {[...Array(cubeCount)].map((_, index) => (
-        <FloatingCube 
-          key={index} 
-          style={{ 
-            top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%` 
-          }} 
-        />
-      ))}
-    </>
-  );
-};
 
 export default Homepage;
