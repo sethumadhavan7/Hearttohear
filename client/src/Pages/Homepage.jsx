@@ -16,9 +16,11 @@ const Homepage = () => {
         <Link to="/login"><button>Log In</button></Link>
         <Link to="/register"><button>Register</button></Link>
       </Nav>
+
+      {/* Section 1: Mental Health */}
       <Section>
         <Text>
-          <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & health advice<br/></h2>
+          <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice<br/></h2>
         </Text>
         <Image 
           src={mental} 
@@ -28,6 +30,8 @@ const Homepage = () => {
           hovered={hoveredMental}
         />
       </Section>
+
+      {/* Section 2: Happy */}
       <Section reverse>
         <Image 
           src={happy} 
@@ -40,6 +44,8 @@ const Homepage = () => {
           <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
         </Text>
       </Section>
+
+      {/* Section 3: Alone */}
       <Section>
         <Text>
           <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
@@ -52,13 +58,15 @@ const Homepage = () => {
           hovered={hoveredAlone}
         />
       </Section>
+
+      {/* Floating Elements for Background Animation */}
       <FloatingElements />
     </Container>
   );
 }
 
 const Container = styled.div`
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   padding: 20px;
   position: relative;
