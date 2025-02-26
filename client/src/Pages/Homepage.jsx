@@ -54,14 +54,14 @@ const Homepage = () => {
   );
 };
 
-/* Enable Full Scrolling */
+/* Global Styles for Full Page Scrolling */
 const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  overflow-y: auto; /* Ensures scrolling */
+  height: 100vh;
+  overflow-y: auto; /* Ensures full scrolling */
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
 `;
 
@@ -71,6 +71,7 @@ const MainContent = styled.div`
   gap: 50px; /* Space between sections */
   padding: 20px;
   flex-grow: 1;
+  min-height: 100vh; /* Ensures content fits */
 `;
 
 const Nav = styled.nav`
@@ -144,6 +145,14 @@ const Image = styled.img`
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
   filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(0, 128, 0, 0.9))' : 'drop-shadow(0 0 10px rgba(0, 128, 0, 0.7))'};
+`;
+
+/* Set Body & HTML to Enable Scrolling */
+const GlobalStyles = `
+  html, body {
+    height: 100vh;
+    overflow-y: auto;
+  }
 `;
 
 export default Homepage;
