@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import happy from '../img/happy.png';
@@ -6,195 +6,168 @@ import alone from '../img/alone.png';
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
-  const [hoveredMental, setHoveredMental] = useState(false);
-  const [hoveredHappy, setHoveredHappy] = useState(false);
-  const [hoveredAlone, setHoveredAlone] = useState(false);
+  const [hovered, setHovered] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Track mouse movement for floating effect
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
     <Container>
       <Nav>
-        <Link to="/login"><button>Log In</button></Link>
-        <Link to="/register"><button>Register</button></Link>
+        <Link to="/login"><Button>Log In</Button></Link>
+        <Link to="/register"><Button>Register</Button></Link>
       </Nav>
 
-      {/* Section 1: Mental Health */}
+      {/* Section 1 */}
       <Section>
         <Text>
-          <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice<br/></h2>
+          <h2>SleepSense<br/>Smart Wristband for Sleep & Health Tracking</h2>
         </Text>
         <Image 
           src={mental} 
           alt="mental health" 
-          onMouseEnter={() => setHoveredMental(true)}
-          onMouseLeave={() => setHoveredMental(false)}
-          hovered={hoveredMental}
+          onMouseEnter={() => setHovered('mental')}
+          onMouseLeave={() => setHovered(null)}
+          hovered={hovered === 'mental'}
         />
       </Section>
 
-      {/* Section 2: Happy */}
+      {/* Section 2 */}
       <Section reverse>
         <Image 
           src={happy} 
           alt="happy" 
-          onMouseEnter={() => setHoveredHappy(true)}
-          onMouseLeave={() => setHoveredHappy(false)}
-          hovered={hoveredHappy}
+          onMouseEnter={() => setHovered('happy')}
+          onMouseLeave={() => setHovered(null)}
+          hovered={hovered === 'happy'}
         />
         <Text>
-          <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
+          <h3>Feel Happier<br/>Track your mood & get personalized advice.</h3>
         </Text>
       </Section>
 
-      {/* Section 3: Alone */}
+      {/* Section 3 */}
       <Section>
         <Text>
-          <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
+          <h3>Never Feel Alone<br/>Join a community that cares.</h3>
         </Text>
         <Image 
           src={alone} 
           alt="alone" 
-          onMouseEnter={() => setHoveredAlone(true)}
-          onMouseLeave={() => setHoveredAlone(false)}
-          hovered={hoveredAlone}
+          onMouseEnter={() => setHovered('alone')}
+          onMouseLeave={() => setHovered(null)}
+          hovered={hovered === 'alone'}
         />
       </Section>
 
-      {/* Floating Elements for Background Animation */}
-      <FloatingElements />
+      <FloatingElements mousePosition={mousePosition} />
     </Container>
   );
-}
+};
 
+// Background Animation
+const backgroundAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+// Container with animated gradient background
 const Container = styled.div`
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   color: #333;
+  min-height: 100vh;
   padding: 20px;
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #d4fc79, #96e6a1);
+  background-size: 400% 400%;
+  animation: ${backgroundAnimation} 12s ease infinite;
 `;
 
+// Styled Navigation Bar
 const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 1rem;
+  gap: 15px;
+  padding: 10px;
+`;
 
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+// Modern Buttons with Depth Effect
+const Button = styled.button`
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(to right, #28a745, #218838);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-    &:hover {
-      background-color: #218838;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.3);
   }
 `;
 
+// Glassmorphism Styled Sections
 const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
-  position: relative;
-  z-index: 2;
-
-  &:nth-child(odd) {
-    background-color: #e8f5e9;
-  }
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  margin: 30px;
 `;
 
+// Text Styling
 const Text = styled.div`
   flex: 1;
   padding: 20px;
+  text-align: center;
 
   h2 {
-    margin: 0;
-    font-size: 80px;
-    font-family: "Josefin Sans", sans-serif;
-    line-height: 1.4;
-    margin-bottom: 10rem;
+    font-size: 50px;
+    color: #fff;
   }
 
   h3 {
-    margin: 0;
-    font-size: 40px;
-    font-family: "Josefin Sans", sans-serif;
-    line-height: 1.4;
+    font-size: 30px;
+    color: #fff;
   }
 `;
 
-const bounce = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-`;
-
+// Animated Image Effect
 const Image = styled.img`
   flex: 1;
   max-width: 40%;
   height: auto;
   border-radius: 10px;
-  margin-bottom: 5rem;
-  border: 5px solid transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: ${bounce} 2s infinite ease-in-out;
-  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
-
+  transition: transform 0.3s ease, filter 0.3s ease;
+  
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
-  filter: ${({ hovered }) => 
-    hovered 
-      ? 'drop-shadow(0 0 20px rgba(0, 128, 0, 0.9))' 
-      : 'drop-shadow(0 0 10px rgba(0, 128, 0, 0.7))'};
+  filter: ${({ hovered }) => hovered ? 'brightness(1.2) drop-shadow(0px 0px 10px #34d399)' : 'brightness(1)'};
 `;
 
-const float = keyframes`
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(20px, -20px); }
-  100% { transform: translate(0, 0); }
-`;
-
-const FloatingElement = styled.div`
-  position: absolute;
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
-  background: ${({ color }) => color};
-  border-radius: ${({ shape }) => (shape === 'circle' ? '50%' : '10px')};
-  animation: ${float} ${({ duration }) => duration}s infinite ease-in-out;
-  top: ${({ top }) => top}%;
-  left: ${({ left }) => left}%;
-  opacity: 0.7;
-  z-index: 1;
-`;
-
-const FloatingElements = () => {
+// Floating Elements with Parallax Effect
+const FloatingElements = ({ mousePosition }) => {
   const elements = [
-    { size: 80, color: 'rgba(40, 167, 69, 0.3)', shape: 'circle', duration: 10, top: 10, left: 20 },
-    { size: 120, color: 'rgba(255, 193, 7, 0.3)', shape: 'square', duration: 8, top: 30, left: 70 },
-    { size: 60, color: 'rgba(33, 150, 243, 0.3)', shape: 'circle', duration: 12, top: 50, left: 40 },
-    { size: 100, color: 'rgba(156, 39, 176, 0.3)', shape: 'square', duration: 9, top: 70, left: 10 },
+    { size: 80, color: 'rgba(40, 167, 69, 0.3)', shape: 'circle', top: 10, left: 20 },
+    { size: 120, color: 'rgba(255, 193, 7, 0.3)', shape: 'square', top: 30, left: 70 },
+    { size: 60, color: 'rgba(33, 150, 243, 0.3)', shape: 'circle', top: 50, left: 40 },
   ];
 
   return (
@@ -205,13 +178,25 @@ const FloatingElements = () => {
           size={element.size}
           color={element.color}
           shape={element.shape}
-          duration={element.duration}
           top={element.top}
           left={element.left}
+          x={mousePosition.x}
+          y={mousePosition.y}
         />
       ))}
     </>
   );
 };
+
+const FloatingElement = styled.div`
+  position: absolute;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+  background: ${({ color }) => color};
+  border-radius: ${({ shape }) => (shape === 'circle' ? '50%' : '10px')};
+  top: ${({ top, y }) => top + y * 0.002}%;
+  left: ${({ left, x }) => left + x * 0.002}%;
+  transition: all 0.1s linear;
+`;
 
 export default Homepage;
