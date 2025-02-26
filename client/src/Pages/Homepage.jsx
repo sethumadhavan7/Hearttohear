@@ -14,7 +14,7 @@ const Homepage = () => {
       </Nav>
       <Section>
         <Text>
-          <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & health advice<br/></h2>
+          <h2>Sleep Is The<br/>Best Meditation<br/></h2>
         </Text>
         <Image src={mental} alt="mental health" />
       </Section>
