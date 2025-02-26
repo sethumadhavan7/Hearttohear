@@ -16,44 +16,46 @@ const Homepage = () => {
         <Link to="/register"><button>Register</button></Link>
       </Nav>
 
-      {/* Section 1: Mental Health */}
-      <Section>
-        <Text>
-          <h2>Sleep Is The<br/>Best Meditation</h2>
-        </Text>
-        <BouncingImage 
-          src={mental} 
-          alt="mental health"
-        />
-      </Section>
+      <MainContent>
+        {/* Section 1: Mental Health */}
+        <Section>
+          <Text>
+            <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice</h2>
+          </Text>
+          <BouncingImage 
+            src={mental} 
+            alt="mental health"
+          />
+        </Section>
 
-      {/* Section 2: Happy */}
-      <Section reverse>
-        <Image 
-          src={happy} 
-          alt="happy" 
-          onMouseEnter={() => setHoveredHappy(true)}
-          onMouseLeave={() => setHoveredHappy(false)}
-          hovered={hoveredHappy}
-        />
-        <Text>
-          <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
-        </Text>
-      </Section>
+        {/* Section 2: Happy */}
+        <Section reverse>
+          <Image 
+            src={happy} 
+            alt="happy" 
+            onMouseEnter={() => setHoveredHappy(true)}
+            onMouseLeave={() => setHoveredHappy(false)}
+            hovered={hoveredHappy}
+          />
+          <Text>
+            <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
+          </Text>
+        </Section>
 
-      {/* Section 3: Alone */}
-      <Section>
-        <Text>
-          <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
-        </Text>
-        <Image 
-          src={alone} 
-          alt="alone" 
-          onMouseEnter={() => setHoveredAlone(true)}
-          onMouseLeave={() => setHoveredAlone(false)}
-          hovered={hoveredAlone}
-        />
-      </Section>
+        {/* Section 3: Alone */}
+        <Section>
+          <Text>
+            <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
+          </Text>
+          <Image 
+            src={alone} 
+            alt="alone" 
+            onMouseEnter={() => setHoveredAlone(true)}
+            onMouseLeave={() => setHoveredAlone(false)}
+            hovered={hoveredAlone}
+          />
+        </Section>
+      </MainContent>
 
       {/* Floating Elements for Background Animation */}
       <FloatingElements />
@@ -65,18 +67,23 @@ const Homepage = () => {
 const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
-  padding: 20px;
-  position: relative;
-  overflow: auto; /* Enables scrolling */
-  min-height: 100vh; /* Allows page to expand */
+  overflow-y: auto; /* Enables vertical scrolling */
+  min-height: 100vh;
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+`;
+
+const MainContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px; /* Adds space between sections */
+  padding: 20px;
 `;
 
 const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 1rem;
+  padding: 20px;
 
   button {
     padding: 10px 20px;
@@ -109,10 +116,9 @@ const Section = styled.div`
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 40px 20px;
-  position: relative;
-  z-index: 2;
-  min-height: 80vh; /* Ensures content extends beyond viewport */
+  margin: 0 auto;
+  max-width: 90%;
+  min-height: 60vh; /* Adjusted for proper scrolling */
 `;
 
 const Text = styled.div`
@@ -121,7 +127,7 @@ const Text = styled.div`
 
   h2 {
     margin: 0;
-    font-size: 60px;
+    font-size: 40px;
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
   }
@@ -136,15 +142,9 @@ const Text = styled.div`
 
 /* Keyframe for Bouncing Effect */
 const bounce = keyframes`
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
 `;
 
 /* Bouncing Image */
@@ -153,8 +153,6 @@ const BouncingImage = styled.img`
   max-width: 40%;
   height: auto;
   border-radius: 10px;
-  border: 5px solid transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
   animation: ${bounce} 2s infinite ease-in-out; /* Automatic bouncing */
 `;
 
@@ -164,8 +162,6 @@ const Image = styled.img`
   max-width: 40%;
   height: auto;
   border-radius: 10px;
-  border: 5px solid transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
@@ -192,7 +188,6 @@ const FloatingElement = styled.div`
   top: ${({ top }) => top}%;
   left: ${({ left }) => left}%;
   opacity: 0.7;
-  z-index: 1;
 `;
 
 const FloatingElements = () => {
