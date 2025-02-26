@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import happy from '../img/happy.png';
@@ -6,6 +6,9 @@ import alone from '../img/alone.png';
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
+  const [hoveredHappy, setHoveredHappy] = useState(false);
+  const [hoveredAlone, setHoveredAlone] = useState(false);
+
   return (
     <Container>
       <Nav>
@@ -18,12 +21,21 @@ const Homepage = () => {
         <Text>
           <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & Health Advice</h2>
         </Text>
-        <BouncingImage src={mental} alt="mental health" />
+        <BouncingImage 
+          src={mental} 
+          alt="mental health"
+        />
       </Section>
 
       {/* Section 2: Happy */}
       <Section reverse>
-        <Image src={happy} alt="happy" />
+        <Image 
+          src={happy} 
+          alt="happy" 
+          onMouseEnter={() => setHoveredHappy(true)}
+          onMouseLeave={() => setHoveredHappy(false)}
+          hovered={hoveredHappy}
+        />
         <Text>
           <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
         </Text>
@@ -34,27 +46,32 @@ const Homepage = () => {
         <Text>
           <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
         </Text>
-        <Image src={alone} alt="alone" />
+        <Image 
+          src={alone} 
+          alt="alone" 
+          onMouseEnter={() => setHoveredAlone(true)}
+          onMouseLeave={() => setHoveredAlone(false)}
+          hovered={hoveredAlone}
+        />
       </Section>
 
       {/* Floating Elements for Background Animation */}
       <FloatingElements />
     </Container>
   );
-}
+};
 
-// Container with scrolling enabled
+/* Enable Scrolling */
 const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: #333;
   padding: 20px;
   position: relative;
-  overflow: auto; /* Allows scrolling */
-  min-height: 100vh; /* Ensures the page expands */
+  overflow: auto; /* Enables scrolling */
+  min-height: 100vh; /* Allows page to expand */
   background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
 `;
 
-// Navigation bar
 const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
@@ -75,55 +92,62 @@ const Nav = styled.nav`
       background-color: #218838;
     }
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
-// Section layout
+/* Section Styling */
 const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
   background-color: #fff;
-  padding: 20px;
+  padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  margin: 40px 20px;
   position: relative;
   z-index: 2;
-
-  &:nth-child(odd) {
-    background-color: #e8f5e9;
-  }
+  min-height: 80vh; /* Ensures content extends beyond viewport */
 `;
 
-// Text styles
 const Text = styled.div`
   flex: 1;
   padding: 20px;
 
   h2 {
     margin: 0;
-    font-size: 80px;
+    font-size: 60px;
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
   }
 
   h3 {
     margin: 0;
-    font-size: 40px;
+    font-size: 30px;
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
   }
 `;
 
-// Bouncing effect
+/* Keyframe for Bouncing Effect */
 const bounce = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 `;
 
-// Meditation image with bouncing effect
+/* Bouncing Image */
 const BouncingImage = styled.img`
   flex: 1;
   max-width: 40%;
@@ -131,24 +155,27 @@ const BouncingImage = styled.img`
   border-radius: 10px;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  animation: ${bounce} 2s infinite ease-in-out;
+  animation: ${bounce} 2s infinite ease-in-out; /* Automatic bouncing */
 `;
 
-// Normal image
+/* Normal Image with Hover Effect */
 const Image = styled.img`
   flex: 1;
   max-width: 40%;
   height: auto;
   border-radius: 10px;
+  border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 
-  &:hover {
-    transform: scale(1.1);
-  }
+  transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
+  filter: ${({ hovered }) => 
+    hovered 
+      ? 'drop-shadow(0 0 20px rgba(0, 128, 0, 0.9))' 
+      : 'drop-shadow(0 0 10px rgba(0, 128, 0, 0.7))'};
 `;
 
-// Floating background elements
+/* Floating Background Elements */
 const float = keyframes`
   0% { transform: translate(0, 0); }
   50% { transform: translate(20px, -20px); }
