@@ -18,7 +18,8 @@ const Homepage = () => {
         </Text>
         <Image src={mental} alt="mental health" />
       </Section>
-      <FloatingCubes /> 
+      <FloatingIcons />
+      <ParticleEffect />
     </Container>
   );
 }
@@ -27,8 +28,8 @@ const Container = styled.div`
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
   color: #333;
   padding: 20px;
-  position: relative; /* Add position relative to allow absolute positioning of cubes */
-  overflow: hidden; /* Hide overflowing cubes */
+  position: relative;
+  overflow: hidden;
 `;
 
 const Nav = styled.nav`
@@ -115,34 +116,69 @@ const Image = styled.img`
   }
 `;
 
-const FloatingCube = styled.div`
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  background-color: rgba(128, 255, 128, 0.1); 
-  border: 1px solid rgba(128, 255, 128, 0.5); 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  transform: rotate(45deg); 
-  animation: float 10s infinite linear; 
-`;
-
 const float = keyframes`
   0% { transform: translate(0, 0); }
-  100% { transform: translate(100vw, 100vh); } 
+  100% { transform: translate(100vw, 100vh); }
 `;
 
-const FloatingCubes = () => {
-  const cubeCount = 10; // Adjust the number of cubes
+const FloatingIcon = styled.div`
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(128, 255, 128, 0.1);
+  border: 1px solid rgba(128, 255, 128, 0.5);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  animation: float 10s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: rgba(0, 128, 0, 0.7);
+`;
+
+const FloatingIcons = () => {
+  const iconCount = 10; // Adjust the number of icons
 
   return (
     <>
-      {[...Array(cubeCount)].map((_, index) => (
-        <FloatingCube 
+      {[...Array(iconCount)].map((_, index) => (
+        <FloatingIcon 
           key={index} 
           style={{ 
             top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%` 
+            left: `${Math.random() * 100}%`,
+            animationDuration: `${Math.random() * 10 + 5}s`
+          }} 
+        >
+          🌟
+        </FloatingIcon>
+      ))}
+    </>
+  );
+};
+
+const Particle = styled.div`
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 128, 0, 0.7);
+  border-radius: 50%;
+  animation: float 5s infinite ease-in-out;
+`;
+
+const ParticleEffect = () => {
+  const particleCount = 50; // Adjust the number of particles
+
+  return (
+    <>
+      {[...Array(particleCount)].map((_, index) => (
+        <Particle 
+          key={index} 
+          style={{ 
+            top: `${Math.random() * 100}%`, 
+            left: `${Math.random() * 100}%`,
+            animationDuration: `${Math.random() * 5 + 2}s`
           }} 
         />
       ))}
