@@ -7,22 +7,14 @@ const Homepage = () => {
   const [cubes, setCubes] = useState([]);
 
   useEffect(() => {
-    const generateCubes = () => {
-      return Array.from({ length: 10 }, (_, i) => ({
-        id: i,
-        top: Math.random() * 100,
-        left: Math.random() * 100,
-        size: Math.random() * 60 + 20,
-        duration: Math.random() * 5 + 5,
-      }));
-    };
-
-    setCubes(generateCubes());
-    const interval = setInterval(() => {
-      setCubes(generateCubes());
-    }, 5000);
-
-    return () => clearInterval(interval);
+    const newCubes = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: Math.random() * 60 + 20,
+      duration: Math.random() * 5 + 5
+    }));
+    setCubes(newCubes);
   }, []);
 
   return (
@@ -37,24 +29,26 @@ const Homepage = () => {
           <h2>Sleep Is The<br />Best Meditation</h2>
         </Text>
         <ImageContainer>
-          <AnimatedImage src={mental} alt="mental health" />
+          <JumpingImage src={mental} alt="mental health" />
         </ImageContainer>
       </Section>
       {cubes.map((cube) => (
-        <FloatingCube
-          key={cube.id}
-          style={{
-            top: `${cube.top}%`,
-            left: `${cube.left}%`,
+        <FloatingCube 
+          key={cube.id} 
+          style={{ 
+            top: `${cube.top}%`, 
+            left: `${cube.left}%`, 
             width: `${cube.size}px`,
             height: `${cube.size}px`,
-            animationDuration: `${cube.duration}s`,
-          }}
+            animationDuration: `${cube.duration}s`
+          }} 
         />
       ))}
     </Container>
   );
 };
+
+// Styled Components
 
 const Container = styled.div`
   font-family: 'Poppins', sans-serif;
@@ -110,6 +104,7 @@ const Text = styled.div`
     opacity: 0;
     animation: fadeIn 1.5s forwards ease-in-out;
   }
+
   @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(-20px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -123,18 +118,18 @@ const ImageContainer = styled.div`
   align-items: center;
 `;
 
-const AnimatedImage = styled.img`
+const jumpAnimation = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+`;
+
+const JumpingImage = styled.img`
   max-width: 50%;
   height: auto;
   border-radius: 10px;
   border: 5px solid transparent;
   filter: drop-shadow(0 0 20px rgba(0, 255, 127, 0.7));
-  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 30px rgba(0, 255, 127, 0.9));
-  }
+  animation: ${jumpAnimation} 2s infinite ease-in-out;
 `;
 
 const floatAnimation = keyframes`
@@ -151,7 +146,6 @@ const FloatingCube = styled.div`
   border-radius: 10px;
   transform: rotate(45deg);
   animation: ${floatAnimation} infinite ease-in-out;
-  transition: top 5s linear, left 5s linear;
 `;
 
 const BackgroundAnimation = styled.div`
@@ -160,6 +154,7 @@ const BackgroundAnimation = styled.div`
   height: 100%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 90%);
   animation: backgroundMove 8s infinite alternate ease-in-out;
+
   @keyframes backgroundMove {
     0% { transform: translateY(0px) translateX(0px); }
     100% { transform: translateY(-30px) translateX(30px); }
