@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import mental from '../img/mental.png';
 import happy from '../img/happy.png';
@@ -6,6 +6,10 @@ import alone from '../img/alone.png';
 import styled, { keyframes } from 'styled-components';
 
 const Homepage = () => {
+  const [hoveredMental, setHoveredMental] = useState(false);
+  const [hoveredHappy, setHoveredHappy] = useState(false);
+  const [hoveredAlone, setHoveredAlone] = useState(false);
+
   return (
     <Container>
       <Nav>
@@ -16,10 +20,39 @@ const Homepage = () => {
         <Text>
           <h2>sleepsense<br/>Intelligent Wristband for Sleep Tracking & health advice<br/></h2>
         </Text>
-        <Image src={mental} alt="mental health" />
+        <Image 
+          src={mental} 
+          alt="mental health" 
+          onMouseEnter={() => setHoveredMental(true)}
+          onMouseLeave={() => setHoveredMental(false)}
+          hovered={hoveredMental}
+        />
       </Section>
-      <FloatingIcons />
-      <ParticleEffect />
+      <Section reverse>
+        <Image 
+          src={happy} 
+          alt="happy" 
+          onMouseEnter={() => setHoveredHappy(true)}
+          onMouseLeave={() => setHoveredHappy(false)}
+          hovered={hoveredHappy}
+        />
+        <Text>
+          <h3>Feel Happier<br/>Track your mood and get personalized advice to improve your mental well-being.</h3>
+        </Text>
+      </Section>
+      <Section>
+        <Text>
+          <h3>Never Feel Alone<br/>Connect with others and share your journey towards better sleep and health.</h3>
+        </Text>
+        <Image 
+          src={alone} 
+          alt="alone" 
+          onMouseEnter={() => setHoveredAlone(true)}
+          onMouseLeave={() => setHoveredAlone(false)}
+          hovered={hoveredAlone}
+        />
+      </Section>
+      <FloatingElements />
     </Container>
   );
 }
@@ -30,6 +63,8 @@ const Container = styled.div`
   padding: 20px;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
 `;
 
 const Nav = styled.nav`
@@ -68,6 +103,9 @@ const Section = styled.div`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  position: relative;
+  z-index: 2;
 
   &:nth-child(odd) {
     background-color: #e8f5e9;
@@ -84,6 +122,13 @@ const Text = styled.div`
     font-family: "Josefin Sans", sans-serif;
     line-height: 1.4;
     margin-bottom: 10rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 40px;
+    font-family: "Josefin Sans", sans-serif;
+    line-height: 1.4;
   }
 `;
 
@@ -108,78 +153,53 @@ const Image = styled.img`
   border: 5px solid transparent;
   filter: drop-shadow(0 0 10px rgba(0, 128, 0, 0.7));
   animation: ${bounce} 2s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 
-  transition: filter 0.3s ease-in-out;
-
-  &:hover {
-    filter: drop-shadow(0 0 20px rgba(0, 128, 0, 0.9));
-  }
+  transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
+  filter: ${({ hovered }) => 
+    hovered 
+      ? 'drop-shadow(0 0 20px rgba(0, 128, 0, 0.9))' 
+      : 'drop-shadow(0 0 10px rgba(0, 128, 0, 0.7))'};
 `;
 
 const float = keyframes`
   0% { transform: translate(0, 0); }
-  100% { transform: translate(100vw, 100vh); }
+  50% { transform: translate(20px, -20px); }
+  100% { transform: translate(0, 0); }
 `;
 
-const FloatingIcon = styled.div`
+const FloatingElement = styled.div`
   position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(128, 255, 128, 0.1);
-  border: 1px solid rgba(128, 255, 128, 0.5);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  animation: float 10s infinite linear;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: rgba(0, 128, 0, 0.7);
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+  background: ${({ color }) => color};
+  border-radius: ${({ shape }) => (shape === 'circle' ? '50%' : '10px')};
+  animation: ${float} ${({ duration }) => duration}s infinite ease-in-out;
+  top: ${({ top }) => top}%;
+  left: ${({ left }) => left}%;
+  opacity: 0.7;
+  z-index: 1;
 `;
 
-const FloatingIcons = () => {
-  const iconCount = 10; // Adjust the number of icons
+const FloatingElements = () => {
+  const elements = [
+    { size: 80, color: 'rgba(40, 167, 69, 0.3)', shape: 'circle', duration: 10, top: 10, left: 20 },
+    { size: 120, color: 'rgba(255, 193, 7, 0.3)', shape: 'square', duration: 8, top: 30, left: 70 },
+    { size: 60, color: 'rgba(33, 150, 243, 0.3)', shape: 'circle', duration: 12, top: 50, left: 40 },
+    { size: 100, color: 'rgba(156, 39, 176, 0.3)', shape: 'square', duration: 9, top: 70, left: 10 },
+  ];
 
   return (
     <>
-      {[...Array(iconCount)].map((_, index) => (
-        <FloatingIcon 
-          key={index} 
-          style={{ 
-            top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${Math.random() * 10 + 5}s`
-          }} 
-        >
-          🌟
-        </FloatingIcon>
-      ))}
-    </>
-  );
-};
-
-const Particle = styled.div`
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: rgba(0, 128, 0, 0.7);
-  border-radius: 50%;
-  animation: float 5s infinite ease-in-out;
-`;
-
-const ParticleEffect = () => {
-  const particleCount = 50; // Adjust the number of particles
-
-  return (
-    <>
-      {[...Array(particleCount)].map((_, index) => (
-        <Particle 
-          key={index} 
-          style={{ 
-            top: `${Math.random() * 100}%`, 
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${Math.random() * 5 + 2}s`
-          }} 
+      {elements.map((element, index) => (
+        <FloatingElement
+          key={index}
+          size={element.size}
+          color={element.color}
+          shape={element.shape}
+          duration={element.duration}
+          top={element.top}
+          left={element.left}
         />
       ))}
     </>
