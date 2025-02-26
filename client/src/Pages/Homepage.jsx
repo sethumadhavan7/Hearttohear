@@ -12,19 +12,17 @@ const Homepage = () => {
         id: i,
         top: Math.random() * 100,
         left: Math.random() * 100,
-        size: Math.random() * 60 + 20, // Random size
-        duration: Math.random() * 5 + 5, // Random animation speed
+        size: Math.random() * 60 + 20,
+        duration: Math.random() * 5 + 5,
       }));
     };
 
     setCubes(generateCubes());
-
-    // Update cube positions every 5 seconds
     const interval = setInterval(() => {
       setCubes(generateCubes());
     }, 5000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -57,8 +55,6 @@ const Homepage = () => {
     </Container>
   );
 };
-
-// Styled Components
 
 const Container = styled.div`
   font-family: 'Poppins', sans-serif;
@@ -106,7 +102,6 @@ const Section = styled.div`
 const Text = styled.div`
   flex: 1;
   padding: 20px;
-
   h2 {
     margin: 0;
     font-size: 60px;
@@ -115,7 +110,6 @@ const Text = styled.div`
     opacity: 0;
     animation: fadeIn 1.5s forwards ease-in-out;
   }
-
   @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(-20px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -157,7 +151,7 @@ const FloatingCube = styled.div`
   border-radius: 10px;
   transform: rotate(45deg);
   animation: ${floatAnimation} infinite ease-in-out;
-  transition: top 5s linear, left 5s linear; /* Smooth position changes */
+  transition: top 5s linear, left 5s linear;
 `;
 
 const BackgroundAnimation = styled.div`
@@ -166,7 +160,6 @@ const BackgroundAnimation = styled.div`
   height: 100%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 90%);
   animation: backgroundMove 8s infinite alternate ease-in-out;
-  
   @keyframes backgroundMove {
     0% { transform: translateY(0px) translateX(0px); }
     100% { transform: translateY(-30px) translateX(30px); }
