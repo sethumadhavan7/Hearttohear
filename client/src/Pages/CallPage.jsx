@@ -55,7 +55,7 @@ export default function CallPage() {
       },
       onLeaveRoom: () => {
         console.log('Call ended at:', Date.now());
-        navigate('/client');
+        navigate('/Homepage');
       },
     });
   };
