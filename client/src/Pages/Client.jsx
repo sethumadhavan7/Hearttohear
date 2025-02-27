@@ -3,7 +3,6 @@ import profile from '../img/profile.svg';
 import Api from '../Api/Api';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
 import { io } from 'socket.io-client';
 import Menu from '../Components/Menu';
 
@@ -49,17 +48,11 @@ const Client = ({ setUser, setChat }) => {
     console.log("Helpers State: ", helpers);
   }, [helpers]);
 
-  const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <FaStar key={index} color={index < rating ? '#FFD700' : '#e4e5e9'} />
-    ));
-  };
-
   return (
     <Container>
       <h1>Suggested Helpers</h1>
       <div className="menu">
-        <Menu />
+        <StyledMenu />
       </div>
       <HelperList>
         {helpers && helpers.map((helper) => (
@@ -72,7 +65,6 @@ const Client = ({ setUser, setChat }) => {
               <h2>{helper.userName}</h2>
               <p>Age: {helper.age}</p>
               <p>Language: {helper.language}</p>
-              <Stars>{renderStars(helper.ratings)}</Stars>
             </HelperInfo>
           </HelperBox>
         ))}
@@ -151,10 +143,12 @@ const HelperInfo = styled.div`
   }
 `;
 
-const Stars = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
+// Styled menu for violet theme
+const StyledMenu = styled(Menu)`
+  background: #8a2be2 !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+  padding: 10px;
 `;
 
 export default Client;
