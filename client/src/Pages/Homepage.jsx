@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import mental from '../img/mental.png';
+import mental from '../img/sleep.png';
 import happy from '../img/happy.png';
 import alone from '../img/alone.png';
 
