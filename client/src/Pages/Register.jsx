@@ -172,19 +172,19 @@ const RegisterContainer = styled.div`
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: #ede7f6; /* Light violet background */
+    background: linear-gradient(to right, #8e44ad, #ffffff); /* Violet to White Gradient */
     padding: 20px;
     
     h1 {
         margin-bottom: 20px;
-        color: #673AB7; /* Dark violet color for heading */
+        color: #6a1b9a; /* Deep violet for heading */
     }
 `;
 
 const RegisterForm = styled.form`
     width: 100%;
     max-width: 600px;
-    background-color: #ffffff;
+    background-color: #ffffff; /* White background for form */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -193,10 +193,50 @@ const RegisterForm = styled.form`
     gap: 15px;
 `;
 
+const FormRow = styled.div`
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+`;
+
+const FormGroup = styled.div`
+    flex: 1;
+    min-width: 200px;
+`;
+
+const Label = styled.label`
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: bold;
+`;
+
+const Input = styled.input`
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+`;
+
+const Select = styled.select`
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+`;
+
 const Button = styled.button`
     width: 150px;
     padding: 10px;
-    background-color: #673AB7; /* Dark violet background for button */
+    background-color: #8e44ad; /* Violet background for button */
     border: none;
     border-radius: 5px;
     color: white;
@@ -205,7 +245,7 @@ const Button = styled.button`
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: #512DA8; /* Darker violet on hover */
+        background-color: #6a1b9a; /* Darker violet on hover */
     }
 `;
 
