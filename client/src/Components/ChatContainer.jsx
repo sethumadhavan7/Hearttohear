@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import {BiPowerOff} from 'react-icons/bi'
 import {IoMdSend} from 'react-icons/io'
 import api from '../Api/Api'
 import profile from '../img/profile.svg';
+import { useNavigate } from 'react-router-dom'
 
 const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
     const [msg,setMsg] = useState('')
     const [messages,setMessages] = useState([])
     const [arrivalMessage,setArrivalMessage] = useState(null)
+    const navigate = useNavigate();
 
     const chatContainerRef = useRef(null);
     useEffect(() => {
@@ -35,9 +38,11 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
         }
         fetchMessages()
     },[currentChat])
-    
+    const handleCloseChat = ()=>{
+        setCurrentChat(undefined)
+    }
     const handleSendMsg =async(e)=>{
-        if(msg!==''){
+        if(msg!==""){
             try {
                 let message = msg
                 setMessages([...messages,{fromSelf:true,message:message}])
@@ -60,19 +65,17 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
         }
         }  
     }
-    
     useEffect(()=>{
         if(socket.current){
             socket.current.on("msg-recieve",(msg)=>{
                 setArrivalMessage({fromSelf:false,message:msg})
+                
             })
         }
     },[socket])
-    
     useEffect(()=>{
         arrivalMessage && setMessages((prev)=>[...prev,arrivalMessage])
     },[arrivalMessage])
-    
     const renderMessageContent = (message) => {
         const urlPattern = /https:\/\/hearttohear-frontend.onrender.com\/#\/test\/\?roomID=\w+/;
         const isCallLink = urlPattern.test(message.message);
@@ -94,11 +97,13 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
                 <img src={profile} alt="" />
                 <h3>{currentChat.userName}</h3>
             </div>
+            <div className="logout">
+            </div>
         </div>
         <div className="messages" ref={chatContainerRef}>
         <div className="chats">
           {messages.map((message, index) => (
-            <div key={index} className={`message ${message.fromSelf ? "sended" : "recieved"}`}>
+            <div key={index} className={message ${message.fromSelf ? "sended" : "recieved"}}>
               {renderMessageContent(message)}
             </div>
           ))}
@@ -115,8 +120,8 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
   )
 }
 
-const CallLinkContainer = styled.div`
-  background-color: #7e57c2;
+const CallLinkContainer = styled.div
+  background-color: #388e3c;
   padding: 0.6rem 1rem;
   border-radius: 1rem;
   display: flex;
@@ -130,87 +135,111 @@ const CallLinkContainer = styled.div`
   }
 
   button {
-    background-color: #9575cd;
+    background-color: #81c784;
     border: none;
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
+
     color: white;
     cursor: pointer;
     font-size: 1rem;
+
     &:hover {
-      background-color: #673ab7;
+      background-color: #66bb6a;
     }
   }
-`;
+;
 
-const Container = styled.div`
+const Container = styled.div
     height: 85vh;
     width: 100%;
     display: grid;
     grid-template-rows: 8% 87% 4%;
     color: white;
-    border: 1px solid #7e57c2;
+    border: 1px solid green;
     border-radius: 0 1rem 1rem 0;
-    background: linear-gradient(135deg, #7e57c2, #ede7f6);
     .chat-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #673ab7;
+        background-color: #2e7d32;
         border-radius: 0 1rem 1rem 0;
+
         padding: 1rem;
         .chatUser{
             display: flex;
+            justify-content: left;
             align-items: center;
             gap: 1rem;
             img{
                 width: 3rem;
-                border:2.5px solid #7e57c2;
+                border:2.5px solid #30a206;
                 border-radius: 50%;
             }
+        }
+        .logout{
+            cursor: pointer;
+            color: white;
         }
     }
     .messages{
         overflow-y: scroll;
-        background-color: #f3e5f5;
+        background-color: #ffff;
+        
         &::-webkit-scrollbar{
             width: 0.2rem;
             &-thumb{
-                background-color: #7e57c2;
+                background-color: #ffffff39;
+                width: 0.1rem;
                 border-radius: 1rem;
             }
         }
         .chats{
             display: flex;
-            flex-direction: column;
             gap: 10px;
+            flex-direction: column;
+            width: 100%;
             .message{
                 display: flex;
                 p{
+                    overflow-wrap: break-word;
                     max-width: 40%;
                     padding: 0.6rem 1rem;
                     font-size: 1.1rem;
                     border-radius: 1rem;
                 }
             }
-            .sended p {
-                background-color: #7e57c2;
+            .sended{
+                justify-content: flex-end;
+                p{
+                    background-color: #388e3c;
+                }
             }
-            .recieved p {
-                background-color: #9575cd;
+            .recieved{
+                justify-content: flex-start;
+                p{
+                    background-color: #81c784;
+                }
             }
         }
     }
     .chat-sender{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        height: 100%;
         form{
             display: flex;
             justify-content: space-between;
             width: 100%;
-            background-color: #673ab7;
+            background-color: #4caf50;
             border-radius: 2rem;
+            color: #4caf50;
             padding: 0.5rem;
             input{
                 width: 90%;
+                outline: none;
+                border: none;
                 background-color: inherit;
                 color: white;
                 font-size: 1rem;
@@ -218,9 +247,12 @@ const Container = styled.div`
             button{
                 cursor: pointer;
                 color: white;
+                border: none;
+                outline: none;
+                background-color: inherit;
                 font-size: 1rem;
             }
         }
     }
-`
-export default ChatContainer
+
+export default ChatContainer   
