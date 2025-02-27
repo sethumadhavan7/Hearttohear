@@ -14,8 +14,8 @@ const Homepage = () => {
       <GlobalStyle />
       <Container>
         <Nav>
-          <Link to="/login"><button>Log In</button></Link>
-          <Link to="/register"><button>Register</button></Link>
+          <Link to="/login"><Button>Log In</Button></Link>
+          <Link to="/register"><Button>Register</Button></Link>
         </Nav>
 
         <MainContent>
@@ -65,7 +65,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     overflow-y: auto; /* 🚀 Enables vertical scrolling */
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f3e5f5, #ede7f6); /* Violet and white gradient */
+    background: linear-gradient(135deg, #f3e5f5, #ede7f6); /* Violet Gradient Background */
   }
 `;
 
@@ -85,20 +85,21 @@ const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: 10;
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #8e24aa; /* Violet button color */
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: #6a1b9a; /* Darker violet on hover */
-    }
-  }
   a { text-decoration: none; color: inherit; }
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #8e24aa; /* Violet Button Color */
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #6a1b9a; /* Darker Violet on Hover */
+  }
 `;
 
 const MainContent = styled.div`
