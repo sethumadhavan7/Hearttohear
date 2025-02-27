@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled, { keyframes, createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import mental from '../img/mental.png';
 import happy from '../img/happy.png';
 import alone from '../img/alone.png';
 
 const Homepage = () => {
+  const [hoveredMental, setHoveredMental] = useState(false);
   const [hoveredHappy, setHoveredHappy] = useState(false);
   const [hoveredAlone, setHoveredAlone] = useState(false);
-  const [hoveredMental, setHoveredMental] = useState(false);
 
   return (
     <>
@@ -71,7 +71,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     overflow-y: auto;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #e8e3f0, #d1c4e9);
+    background: linear-gradient(135deg, #e6e6fa, #ffffff);
   }
 `;
 
@@ -94,13 +94,13 @@ const Nav = styled.nav`
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #6a1b9a;
+    background-color: #9370db;
     color: white;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #4a148c;
+      background-color: #6a5acd;
     }
   }
   a { text-decoration: none; color: inherit; }
@@ -147,7 +147,7 @@ const Image = styled.img`
   border-radius: 10px;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
-  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(98, 0, 128, 0.9))' : 'drop-shadow(0 0 10px rgba(98, 0, 128, 0.7))'};
+  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(147, 112, 219, 0.9))' : 'drop-shadow(0 0 10px rgba(147, 112, 219, 0.7))'};
 `;
 
 export default Homepage;
