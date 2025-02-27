@@ -33,21 +33,14 @@ const Client = ({ setUser, setChat }) => {
     const fetch = async () => {
       let user = JSON.parse(localStorage.getItem('Mental-App'));
       const response = await Api.post('/user/helpers', { language: user.language });
-      console.log("Response Data: ", response.data);
       if (Array.isArray(response.data.helpers)) {
         setHelpers(response.data.helpers);
-        console.log("yes");
       } else {
         setHelpers([]);
-        console.log("No");
       }
     };
     fetch();
   }, []);
-
-  useEffect(() => {
-    console.log("Helpers State: ", helpers);
-  }, [helpers]);
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -83,12 +76,11 @@ const Client = ({ setUser, setChat }) => {
 
 const Container = styled.div`
   padding: 20px;
-  background: linear-gradient(to right, #8a2be2, #ffffff);
+  background: linear-gradient(to bottom, #8A2BE2, #FFFFFF);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   .menu {
     position: absolute;
     top: 1rem;
@@ -96,10 +88,11 @@ const Container = styled.div`
   }
   h1 {
     text-align: center;
-    color: #ffffff;
-    background: #4b0082;
+    color: #fff;
+    background-color: #8A2BE2;
     padding: 10px 20px;
-    border-radius: 10px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -109,25 +102,25 @@ const HelperList = styled.ul`
   justify-content: center;
   list-style: none;
   padding: 0;
+  margin-top: 20px;
 `;
 
 const HelperBox = styled.li`
-  background: #ffffff;
-  border: 2px solid #8a2be2;
+  background: #fff;
   border-radius: 15px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 15px;
   padding: 20px;
   width: 220px;
-  cursor: pointer;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.08);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.3);
   }
 
   img {
@@ -135,7 +128,6 @@ const HelperBox = styled.li`
     width: 90px;
     border-radius: 50%;
     margin-bottom: 10px;
-    border: 3px solid #8a2be2;
   }
 `;
 
@@ -143,11 +135,11 @@ const HelperInfo = styled.div`
   text-align: center;
   h2 {
     margin: 10px 0;
-    color: #4b0082;
+    color: #8A2BE2;
   }
   p {
     margin: 5px 0;
-    color: #6a0dad;
+    color: #6A1B9A;
   }
 `;
 
