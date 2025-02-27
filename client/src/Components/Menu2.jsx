@@ -7,6 +7,7 @@ const Menu2 = () => {
 
   const navigate = useNavigate()
 
+
   const handleToggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -25,21 +26,22 @@ const Menu2 = () => {
         <MenuContainer>
           <Link to={'/helper'}><MenuItem>Home</MenuItem></Link>
           <Link to={'/request'}><MenuItem>Requests</MenuItem></Link>
+          <Link to={'/crypto'}><MenuItem>Crypto</MenuItem></Link>
           <p style={{color:'red',textAlign:'center',cursor:'pointer'}} onClick={handleLogout} >LogOut</p>
         </MenuContainer>
       )}
     </Div>
   );
 };
-const Div = styled.div`
+const Div = styled.div
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   z-index: 99;
-`
 
-const ToggleMenuButton = styled.button`
-  background-color: #6a0dad;
+
+const ToggleMenuButton = styled.button
+  background-color: #2e7d32;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -49,12 +51,12 @@ const ToggleMenuButton = styled.button`
   display: flex;
   justify-content: right;
   &:hover {
-    background-color: #4b0082;
+    background-color: #1b5e20;
   }
-`;
+;
 
-const MenuContainer = styled.div`
-  background-color: #eee;
+const MenuContainer = styled.div
+  background-color: #f5f5f5;
   padding: 5px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -64,21 +66,21 @@ const MenuContainer = styled.div`
     text-decoration: none;
     color: inherit;
   }
-`;
+;
 
-const MenuItem = styled.div`
+const MenuItem = styled.div
   padding: 10px 20px;
   border-bottom: 1px solid #ccc;
   margin: 2px;
-  background-color: #d8bfd8;
+  background-color: #ddf1ce;
   text-align: center;
   &:hover{
-    background-color: #c8a2c8;
+    background-color: #d1edbb;
   }
 
   &:last-child {
     border-bottom: none;
   }
-`;
+;
 
-export default Menu2;
+export default Menu2;   
