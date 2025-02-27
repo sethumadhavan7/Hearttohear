@@ -66,9 +66,9 @@ const Chat = () => {
   return (
     <>
       <Container>
-        <div className="menu">
-          <Menu/>
-        </div>
+      <div className="menu">
+        <Menu/>
+      </div>
         <div className={container }>
           <div className={mobile-contacts ${currentChat !== undefined ? "cont" : ""}}>
             <Contacts contacts={contacts} currentUser={currentUser} changeChat={changeChat} />
@@ -90,7 +90,7 @@ const Container = styled.div
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  background: linear-gradient(to right, #8a2be2, #ffffff);
+  background-color: white;
   .menu {
     position: absolute;
     top: 1rem;
@@ -101,7 +101,7 @@ const Container = styled.div
     width: 90vw;
     display: grid;
     grid-template-columns: 25% 75%;
-    background: linear-gradient(to right, #ffffff, #8a2be2);
+    background-color: white;
     .mobile-contacts{
       overflow: hidden;
       height: 100%;
@@ -131,8 +131,8 @@ const Container = styled.div
     display: flex;
     justify-content: flex-start;
     align-items: start;
-    background: linear-gradient(to right, #8a2be2, #ffffff);
+    background-color: white;
   }
 
 
-export default Chat  
+export default Chat   
