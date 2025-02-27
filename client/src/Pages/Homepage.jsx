@@ -8,14 +8,15 @@ import alone from '../img/alone.png';
 const Homepage = () => {
   const [hoveredHappy, setHoveredHappy] = useState(false);
   const [hoveredAlone, setHoveredAlone] = useState(false);
+  const [hoveredMental, setHoveredMental] = useState(false);
 
   return (
     <>
       <GlobalStyle />
       <Container>
         <Nav>
-          <Link to="/login"><Button>Log In</Button></Link>
-          <Link to="/register"><Button>Register</Button></Link>
+          <Link to="/login"><button>Log In</button></Link>
+          <Link to="/register"><button>Register</button></Link>
         </Nav>
 
         <MainContent>
@@ -23,7 +24,13 @@ const Homepage = () => {
             <Text>
               <h2>Sleep Is The<br/>Best Meditation</h2>
             </Text>
-            <BouncingImage src={mental} alt="mental health" />
+            <Image 
+              src={mental} 
+              alt="mental health" 
+              onMouseEnter={() => setHoveredMental(true)}
+              onMouseLeave={() => setHoveredMental(false)}
+              hovered={hoveredMental}
+            />
           </Section>
 
           <Section reverse>
@@ -57,19 +64,17 @@ const Homepage = () => {
   );
 };
 
-/* 🔧 GLOBAL STYLES: Fixes scrolling issues */
 const GlobalStyle = createGlobalStyle`
   html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y: auto; /* 🚀 Enables vertical scrolling */
+    overflow-y: auto;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f3e5f5, #ede7f6); /* Violet Gradient Background */
+    background: linear-gradient(135deg, #e8e3f0, #d1c4e9);
   }
 `;
 
-/* 📜 Main container now allows scrolling */
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,21 +90,20 @@ const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: 10;
-  a { text-decoration: none; color: inherit; }
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #8e24aa; /* Violet Button Color */
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: #6a1b9a; /* Darker Violet on Hover */
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6a1b9a;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #4a148c;
+    }
   }
+  a { text-decoration: none; color: inherit; }
 `;
 
 const MainContent = styled.div`
@@ -108,7 +112,7 @@ const MainContent = styled.div`
   gap: 50px;
   padding: 20px;
   flex-grow: 1;
-  min-height: 150vh; /* 🚀 Ensures scrolling is needed */
+  min-height: 150vh;
 `;
 
 const Section = styled.div`
@@ -122,7 +126,7 @@ const Section = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 30px auto;
   width: 90%;
-  min-height: 80vh; /* 🚀 Ensures sections take up enough space */
+  min-height: 80vh;
 `;
 
 const Text = styled.div`
@@ -136,21 +140,6 @@ const Text = styled.div`
   }
 `;
 
-/* 🎉 Bouncing Effect */
-const bounce = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0); }
-`;
-
-const BouncingImage = styled.img`
-  flex: 1;
-  max-width: 40%;
-  height: auto;
-  border-radius: 10px;
-  animation: ${bounce} 2s infinite ease-in-out;
-`;
-
 const Image = styled.img`
   flex: 1;
   max-width: 40%;
@@ -158,7 +147,7 @@ const Image = styled.img`
   border-radius: 10px;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
-  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(142, 36, 170, 0.9))' : 'drop-shadow(0 0 10px rgba(142, 36, 170, 0.7))'};
+  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(98, 0, 128, 0.9))' : 'drop-shadow(0 0 10px rgba(98, 0, 128, 0.7))'};
 `;
 
 export default Homepage;
