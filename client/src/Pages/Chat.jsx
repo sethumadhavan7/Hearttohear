@@ -43,7 +43,7 @@ const Chat = () => {
     const fetch = async () => {
       try {
         if (currentUser) {
-          const { data } = await api.get(`/user/${currentUser._id}`)
+          const { data } = await api.get(/user/${currentUser._id})
           if (data.status === false) {
             toast.error(data.message, toastOption)
             localStorage.removeItem('Mental-App')
@@ -69,11 +69,11 @@ const Chat = () => {
         <div className="menu">
           <Menu/>
         </div>
-        <div className={`container `}>
-          <div className={`mobile-contacts ${currentChat !== undefined ? "cont" : ""}`}>
+        <div className={container }>
+          <div className={mobile-contacts ${currentChat !== undefined ? "cont" : ""}}>
             <Contacts contacts={contacts} currentUser={currentUser} changeChat={changeChat} />
           </div>
-          <div className={`mobile-chat ${currentChat ? "chat" : ""}`}>
+          <div className={mobile-chat ${currentChat ? "chat" : ""}}>
             <ChatPage currentUser={currentUser} currentChat={currentChat} setCurrentChat={setCurrentChat} socket={socket} />
           </div>
         </div>
@@ -83,7 +83,7 @@ const Chat = () => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.div
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -133,6 +133,6 @@ const Container = styled.div`
     align-items: start;
     background: linear-gradient(to right, #8a2be2, #ffffff);
   }
-`
 
-export default Chat
+
+export default Chat  
