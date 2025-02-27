@@ -58,7 +58,7 @@ const Client = ({setUser,setChat}) => {
 
   return (
     <Container>
-      <h1>Suggested Users</h1>
+      <h1>Suggested Helpers</h1>
       <div className="menu">
         <Menu/>
       </div>
