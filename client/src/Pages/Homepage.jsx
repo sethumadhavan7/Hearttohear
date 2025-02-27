@@ -65,7 +65,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     overflow-y: auto; /* 🚀 Enables vertical scrolling */
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f3e5f5, #ede7f6); /* Violet and White Gradient */
+    background: linear-gradient(135deg, #f3e5f5, #ede7f6); /* Violet and white gradient */
   }
 `;
 
@@ -89,13 +89,13 @@ const Nav = styled.nav`
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #28a745;
+    background-color: #8e24aa; /* Violet button color */
     color: white;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #218838;
+      background-color: #6a1b9a; /* Darker violet on hover */
     }
   }
   a { text-decoration: none; color: inherit; }
@@ -157,7 +157,7 @@ const Image = styled.img`
   border-radius: 10px;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
   transform: ${({ hovered }) => (hovered ? 'scale(1.1)' : 'scale(1)')};
-  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(0, 128, 0, 0.9))' : 'drop-shadow(0 0 10px rgba(0, 128, 0, 0.7))'};
+  filter: ${({ hovered }) => hovered ? 'drop-shadow(0 0 20px rgba(142, 36, 170, 0.9))' : 'drop-shadow(0 0 10px rgba(142, 36, 170, 0.7))'};
 `;
 
 export default Homepage;
