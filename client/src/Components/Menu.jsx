@@ -7,7 +7,6 @@ const Menu = () => {
 
   const navigate = useNavigate()
 
-
   const handleToggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -40,7 +39,7 @@ const Div = styled.div`
 `
 
 const ToggleMenuButton = styled.button`
-  background-color: #2e7d32;
+  background-color: #6A0DAD;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -50,12 +49,12 @@ const ToggleMenuButton = styled.button`
   display: flex;
   justify-content: right;
   &:hover {
-    background-color: #1b5e20;
+    background-color: #4B0082;
   }
 `;
 
 const MenuContainer = styled.div`
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 5px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -71,10 +70,10 @@ const MenuItem = styled.div`
   padding: 10px 20px;
   border-bottom: 1px solid #ccc;
   margin: 2px;
-  background-color: #ddf1ce;
+  background-color: #E6E6FA;
   text-align: center;
   &:hover{
-    background-color: #d1edbb;
+    background-color: #D8BFD8;
   }
 
   &:last-child {
