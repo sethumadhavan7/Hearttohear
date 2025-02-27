@@ -172,71 +172,31 @@ const RegisterContainer = styled.div`
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: #e8f5e9; /* Light green background */
+    background-color: #ede7f6; /* Light violet background */
     padding: 20px;
     
     h1 {
         margin-bottom: 20px;
-        color: #4CAF50; /* Green color for heading */
+        color: #673AB7; /* Dark violet color for heading */
     }
 `;
 
 const RegisterForm = styled.form`
     width: 100%;
-    max-width: 600px; /* Increased max-width */
-    background-color: #ffffff; /* White background for form */
+    max-width: 600px;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Add spacing between rows */
-`;
-
-const FormRow = styled.div`
-    display: flex;
-    gap: 20px; /* Space between columns */
-    flex-wrap: wrap; /* Allow wrapping on small screens */
-`;
-
-const FormGroup = styled.div`
-    flex: 1;
-    min-width: 200px; /* Minimum width to ensure readability */
-`;
-
-const Label = styled.label`
-    display: block;
-    color: #333; /* Dark text color */
-    margin-bottom: 5px;
-    font-weight: bold;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-`;
-
-const Select = styled.select`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-`;
-
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    gap: 15px;
 `;
 
 const Button = styled.button`
     width: 150px;
     padding: 10px;
-    background-color: #4CAF50; /* Green background for button */
+    background-color: #673AB7; /* Dark violet background for button */
     border: none;
     border-radius: 5px;
     color: white;
@@ -245,7 +205,7 @@ const Button = styled.button`
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: #388e3c; /* Darker green on hover */
+        background-color: #512DA8; /* Darker violet on hover */
     }
 `;
 
