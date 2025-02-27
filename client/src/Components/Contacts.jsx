@@ -20,15 +20,16 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
     return (
         <Container>
             <div className="brand">
+                <img src={""} alt="" />
                 <h3>ChatPage</h3>
             </div>
             <div className="contacts">
                 {currentUsername && (
                     contacts.map((item, index) => (
-                        item.userName !== currentUsername && (
+                        item.userName !== currentUsername && ( // Check if the username is not the current user's username
                             <div
                                 key={index}
-                                className={`contact ${currentSelected === index ? "selected" : ""}`}
+                                className={contact ${currentSelected === index ? "selected" : ""}}
                                 onClick={() => changeCurrentChat(item, index)}
                             >
                                 <img src={profile} alt="" />
@@ -42,28 +43,28 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
     );
 };
 
-const Container = styled.div`
+const Container = styled.div
     overflow: hidden;
     height: 100%;
     padding-top: 20px;
     color: white;
     display: grid;
     grid-template-rows: 10% 75% 15%;
-    background-color: #8a2be2;
-    border: 2px solid white;
-    border-radius: 10px;
+    background-color: #e1dede;
+    border: 1px solid green;
     
     .brand {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 1rem;
-        padding: 1rem;
+
+        img {
+            width: 3rem;
+        }
 
         h3 {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
+            color: black;
         }
     }
 
@@ -72,52 +73,47 @@ const Container = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: auto;
+        overflow: scroll;
         gap: 1rem;
 
         &::-webkit-scrollbar {
-            width: 0.3rem;
+            width: 0.2rem;
 
             &-thumb {
                 background-color: #ffffff39;
+                width: 0.1rem;
                 border-radius: 1rem;
+                
             }
         }
 
         .contact {
-            width: 85%;
-            padding: 0.6rem;
+            width: 90%;
+            padding: 0.4rem;
             display: flex;
             gap: 1rem;
             align-items: center;
-            background-color: white;
-            border-radius: 10px;
+    
+            border: 1px solid green;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
-            box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
 
             img {
-                margin-left: 1rem;
+                margin-left: 2rem;
                 width: 3rem;
-                border-radius: 50%;
-                border: 2px solid #6a0dad;
             }
 
             h4 {
-                color: #6a0dad;
-                font-size: 1.2rem;
-                font-weight: bold;
+                color: white;
             }
         }
 
         .contact:hover {
-            background-color: #7b68ee;
-            color: white;
+            background-color: #4caf50;
         }
 
         .selected {
-            background-color: #6a0dad;
-            color: white;
+            background-color: #66bb6a;
         }
     }
 
@@ -135,11 +131,9 @@ const Container = styled.div`
 
             img {
                 width: 4rem;
-                border-radius: 50%;
-                border: 2px solid white;
             }
         }
     }
-`;
+;
 
-export default Contacts;
+export default Contacts;   
