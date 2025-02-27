@@ -53,9 +53,15 @@ export default function CallPage() {
       onReady: () => {
         console.log('Call started at:', Date.now());
       },
-      onLeaveRoom: () => {
+       onLeaveRoom: () => {
         console.log('Call ended at:', Date.now());
-        navigate('/Homepage');
+        // Check user role after the call ends
+        const userDetails = JSON.parse(localStorage.getItem('Mental-App'));
+        if (userDetails && userDetails.role === 'client') {
+          setShowRatingPrompt(true);
+        } else if (userDetails && userDetails.role === 'helper') {
+          navigate('/helper');
+        }
       },
     });
   };
