@@ -17,11 +17,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const formData = {
-        mobile,
-        password,
-      };
-
+      const formData = { mobile, password };
       const response = await Api.post('/auth/login', formData);
       console.log(response.data.user);
 
@@ -79,17 +75,17 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e8f5e9;
+  background-color: #7b1fa2; /* Violet background */
   padding: 20px;
   box-sizing: border-box;
-
+  
   @media (max-width: 600px) {
     padding: 10px;
   }
 `;
 
 const Title = styled.h1`
-  color: #4caf50;
+  color: #ffffff;
   margin-bottom: 20px;
   font-size: 24px;
 
@@ -100,7 +96,7 @@ const Title = styled.h1`
 
 const Form = styled.form`
   background-color: #ffffff;
-  border: 1px solid #4caf50;
+  border: 1px solid #6a1b9a;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -116,7 +112,7 @@ const Form = styled.form`
 
 const FormGroup = styled.div`
   margin-bottom: 15px;
-
+  
   @media (max-width: 600px) {
     margin-bottom: 10px;
   }
@@ -124,7 +120,7 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   display: block;
-  color: #388e3c;
+  color: #4a0072;
   margin-bottom: 5px;
   font-size: 16px;
 
@@ -136,7 +132,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 10px;
-  border: 1px solid #4caf50;
+  border: 1px solid #6a1b9a;
   border-radius: 5px;
   box-sizing: border-box;
   font-size: 16px;
@@ -161,7 +157,7 @@ const Error = styled.div`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #4a0072; /* Dark Violet */
   color: white;
   border: none;
   border-radius: 5px;
@@ -175,11 +171,11 @@ const SubmitButton = styled.button`
   }
 
   &:hover {
-    background-color: #45a049;
+    background-color: #8e24aa; /* Light Violet on Hover */
   }
 
   &:disabled {
-    background-color: #a5d6a7;
+    background-color: #b39ddb;
     cursor: not-allowed;
   }
 `;
