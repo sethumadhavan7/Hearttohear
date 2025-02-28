@@ -26,10 +26,10 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
             <div className="contacts">
                 {currentUsername && (
                     contacts.map((item, index) => (
-                        item.userName !== currentUsername && ( // Check if the username is not the current user's username
+                        item.userName !== currentUsername && (
                             <div
                                 key={index}
-                                className={contact ${currentSelected === index ? "selected" : ""}`}
+                                className={`contact ${currentSelected === index ? "selected" : ""}`}
                                 onClick={() => changeCurrentChat(item, index)}
                             >
                                 <img src={profile} alt="" />
@@ -43,7 +43,7 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
     );
 };
 
-const Container = styled.div
+const Container = styled.div`
     overflow: hidden;
     height: 100%;
     padding-top: 20px;
@@ -52,7 +52,7 @@ const Container = styled.div
     grid-template-rows: 10% 75% 15%;
     background-color: #e1dede;
     border: 1px solid green;
-    
+
     .brand {
         display: flex;
         justify-content: center;
@@ -83,7 +83,6 @@ const Container = styled.div
                 background-color: #ffffff39;
                 width: 0.1rem;
                 border-radius: 1rem;
-                
             }
         }
 
@@ -93,7 +92,6 @@ const Container = styled.div
             display: flex;
             gap: 1rem;
             align-items: center;
-    
             border: 1px solid green;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
@@ -127,7 +125,6 @@ const Container = styled.div
             justify-content: center;
             align-items: center;
             gap: 1rem;
-            align-items: center;
 
             img {
                 width: 4rem;
@@ -136,4 +133,4 @@ const Container = styled.div
     }
 `;
 
-export default Contacts;   
+export default Contacts;
