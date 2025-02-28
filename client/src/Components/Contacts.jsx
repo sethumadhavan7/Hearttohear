@@ -29,7 +29,7 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
                         item.userName !== currentUsername && ( // Check if the username is not the current user's username
                             <div
                                 key={index}
-                                className={contact ${currentSelected === index ? "selected" : ""}}
+                                className={contact ${currentSelected === index ? "selected" : ""}`}
                                 onClick={() => changeCurrentChat(item, index)}
                             >
                                 <img src={profile} alt="" />
