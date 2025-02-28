@@ -103,7 +103,7 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
         <div className="messages" ref={chatContainerRef}>
         <div className="chats">
           {messages.map((message, index) => (
-            <div key={index} className={message ${message.fromSelf ? "sended" : "recieved"}}>
+            <div key={index} className={message ${message.fromSelf ? "sended" : "recieved"}`}>
               {renderMessageContent(message)}
             </div>
           ))}
