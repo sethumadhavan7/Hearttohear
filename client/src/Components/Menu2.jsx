@@ -81,6 +81,6 @@ const MenuItem = styled.div
   &:last-child {
     border-bottom: none;
   }
-;
+`;
 
 export default Menu2;   
