@@ -133,6 +133,7 @@ const Container = styled.div
     align-items: start;
     background-color: white;
   }
+`
 
 
 export default Chat   
