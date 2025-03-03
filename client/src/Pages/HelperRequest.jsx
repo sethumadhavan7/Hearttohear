@@ -35,7 +35,7 @@ const HelperRequest = ({setUser}) => {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("https://mental-health-backend-lwrf.onrender.com")
+      socket.current = io("https://hearttohear-2.onrender.com")
       socket.current.emit("add-user", currentUser._id)
     }
   }, [currentUser])
