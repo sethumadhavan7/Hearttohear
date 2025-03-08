@@ -30,7 +30,7 @@ const Chat = () => {
       setCurrentUser(JSON.parse(localStorage.getItem('Mental-App')));
       setLoader(true);
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
