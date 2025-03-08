@@ -1,67 +1,67 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { io } from 'socket.io-client';
-import styled from 'styled-components';
-import Contacts from '../Components/Contacts';
-import ChatPage from '../Components/ChatPage';
-import { useNavigate } from 'react-router-dom';
-import api from '../Api/Api';
-import { ToastContainer, toast } from 'react-toastify';
-import Menu from '../Components/Menu';
+import { io } from 'socket.io-client'
+import styled from 'styled-components'
+import Contacts from '../Components/Contacts'
+import ChatPage from '../Components/ChatPage'
+import { useNavigate } from 'react-router-dom'
+import api from '../Api/Api'
+import { ToastContainer, toast } from 'react-toastify'
+import Menu from '../Components/Menu'
 
 const Chat = () => {
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(undefined);
-  const [contacts, setContacts] = useState([]);
-  const [currentChat, setCurrentChat] = useState(undefined);
-  const [loader, setLoader] = useState(false);
-  const socket = useRef();
+  const navigate = useNavigate()
+  const [currentUser, setCurrentUser] = useState(undefined)
+  const [contacts, setContacts] = useState([])
+  const [currentChat, setCurrentChat] = useState(undefined)
+  const [loader, setLoader] = useState(false)
+  const socket = useRef()
   const toastOption = {
     position: 'bottom-right',
     autoClose: 8000,
     pauseOnHover: true,
     draggable: true,
     theme: "dark"
-  };
+  }
 
   useEffect(() => {
     if (!localStorage.getItem('Mental-App')) {
-      navigate('/login');
+      navigate('/login')
     } else {
-      setCurrentUser(JSON.parse(localStorage.getItem('Mental-App')));
+      setCurrentUser(JSON.parse(localStorage.getItem('Mental-App')))
       setLoader(true);
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("https://hearttohear-2.onrender.com");
-      socket.current.emit("add-user", currentUser._id);
+      socket.current = io("https://hearttohear-2.onrender.com")
+      socket.current.emit("add-user", currentUser._id)
     }
-  }, [currentUser]);
+  }, [currentUser])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetch = async () => {
       try {
         if (currentUser) {
-          const { data } = await api.get(`/user/${currentUser._id}`);
+          const { data } = await api.get(`/user/${currentUser._id}`)
           if (data.status === false) {
-            toast.error(data.message, toastOption);
-            localStorage.removeItem('Mental-App');
-            navigate('/login');
+            toast.error(data.message, toastOption)
+            localStorage.removeItem('Mental-App')
+            navigate('/login')
           } else {
-            setContacts(data.data);
+            setContacts(data.data)
           }
         }
       } catch (error) {
-        toast.error(error.message, toastOption);
+        toast.error(error.message, toastOption)
       }
-    };
-    fetchData();
-  }, [currentUser, navigate]);
+    }
+    fetch()
+  }, [currentUser])
 
   const changeChat = (chat) => {
-    setCurrentChat(chat);
-  };
+    setCurrentChat(chat)
+  }
 
   return (
     <>
@@ -69,7 +69,7 @@ const Chat = () => {
         <div className="menu">
           <Menu />
         </div>
-        <div className="container">
+        <div className={`container `}>
           <div className={`mobile-contacts ${currentChat !== undefined ? "cont" : ""}`}>
             <Contacts contacts={contacts} currentUser={currentUser} changeChat={changeChat} />
           </div>
@@ -80,8 +80,8 @@ const Chat = () => {
       </Container>
       <ToastContainer />
     </>
-  );
-};
+  )
+}
 
 const Container = styled.div`
   display: flex;
@@ -143,6 +143,6 @@ const Container = styled.div`
     align-items: start;
     background-color: white;
   }
-`;
+`
 
-export default Chat;
+export default Chat
