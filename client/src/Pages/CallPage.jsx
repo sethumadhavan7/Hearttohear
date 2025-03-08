@@ -75,7 +75,7 @@ export default function CallPage({ Chats }) {
   const navigate = useNavigate();
 
   const startCall = (element) => {
-    const appID = 756401678;
+    const appID = 1765347933;
     const serverSecret = 'd02c2c9ff860f9a7de482335e058a650';
     const userID = randomID(5);
     const userName = randomID(5);
