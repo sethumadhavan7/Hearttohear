@@ -75,8 +75,8 @@ export default function CallPage({ Chats }) {
   const navigate = useNavigate();
 
   const startCall = (element) => {
-    const appID = 1706247172;
-    const serverSecret = 'b6810cb42570c769bb1c0e7066152e25';
+    const appID = 1887319413;
+    const serverSecret = '2724cbd7accd99e528a14ea9b7a229d1';
     const userID = randomID(5);
     const userName = randomID(5);
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
