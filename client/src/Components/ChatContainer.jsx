@@ -121,7 +121,7 @@ const ChatContainer = ({currentChat,currentUser,setCurrentChat,socket}) => {
 }
 
 const CallLinkContainer = styled.div`
-  background-color: #388e3c;
+  background-color: #8a2be2; /* Violet */
   padding: 0.6rem 1rem;
   border-radius: 1rem;
   display: flex;
@@ -135,17 +135,17 @@ const CallLinkContainer = styled.div`
   }
 
   button {
-    background-color: #81c784;
+    background-color: #9932cc; /* Darker violet */
     border: none;
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
-
     color: white;
     cursor: pointer;
     font-size: 1rem;
+    transition: all 0.2s ease;
 
     &:hover {
-      background-color: #66bb6a;
+      background-color: #8a2be2;
     }
   }
 `;
@@ -154,18 +154,21 @@ const Container = styled.div`
     height: 85vh;
     width: 100%;
     display: grid;
-    grid-template-rows: 8% 87% 4%;
+    grid-template-rows: 8% 87% 5%;
     color: white;
-    border: 1px solid green;
+    border: 1px solid #8a2be2;
     border-radius: 0 1rem 1rem 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.1);
+    
     .chat-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #2e7d32;
-        border-radius: 0 1rem 1rem 0;
-
+        background-color: #8a2be2;
+        border-radius: 0 1rem 0 0;
         padding: 1rem;
+        
         .chatUser{
             display: flex;
             justify-content: left;
@@ -173,8 +176,11 @@ const Container = styled.div`
             gap: 1rem;
             img{
                 width: 3rem;
-                border:2.5px solid #30a206;
+                border: 2.5px solid #9932cc;
                 border-radius: 50%;
+            }
+            h3 {
+                color: white;
             }
         }
         .logout{
@@ -182,23 +188,27 @@ const Container = styled.div`
             color: white;
         }
     }
+    
     .messages{
         overflow-y: scroll;
-        background-color: #ffff;
+        background-color: #ffffff;
+        padding: 0.5rem;
         
         &::-webkit-scrollbar{
             width: 0.2rem;
             &-thumb{
-                background-color: #ffffff39;
+                background-color: #8a2be2;
                 width: 0.1rem;
                 border-radius: 1rem;
             }
         }
+        
         .chats{
             display: flex;
             gap: 10px;
             flex-direction: column;
             width: 100%;
+            
             .message{
                 display: flex;
                 p{
@@ -207,50 +217,67 @@ const Container = styled.div`
                     padding: 0.6rem 1rem;
                     font-size: 1.1rem;
                     border-radius: 1rem;
+                    color: white;
                 }
             }
+            
             .sended{
                 justify-content: flex-end;
                 p{
-                    background-color: #388e3c;
+                    background-color: #8a2be2;
                 }
             }
+            
             .recieved{
                 justify-content: flex-start;
                 p{
-                    background-color: #81c784;
+                    background-color: #ba8fe6;
                 }
             }
         }
     }
+    
     .chat-sender{
         width: 100%;
         display: flex;
         align-items: center;
         height: 100%;
+        background-color: #f5f0ff;
+        border-radius: 0 0 1rem 1rem;
+        
         form{
             display: flex;
             justify-content: space-between;
             width: 100%;
-            background-color: #4caf50;
+            background-color: #8a2be2;
             border-radius: 2rem;
-            color: #4caf50;
-            padding: 0.5rem;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            
             input{
                 width: 90%;
                 outline: none;
                 border: none;
-                background-color: inherit;
+                background-color: transparent;
                 color: white;
                 font-size: 1rem;
+                &::placeholder {
+                    color: #e6d5ff;
+                }
             }
+            
             button{
                 cursor: pointer;
                 color: white;
                 border: none;
                 outline: none;
-                background-color: inherit;
-                font-size: 1rem;
+                background-color: transparent;
+                font-size: 1.2rem;
+                transition: transform 0.2s ease;
+                
+                &:hover {
+                    transform: scale(1.1);
+                }
             }
         }
     }
