@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Api from '../Api/Api';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const Register = () => {
     const [userName, setUsername] = useState('');
@@ -46,13 +46,14 @@ const Register = () => {
     };
 
     return (
-        <RegisterContainer>
-            <h1>Register</h1>
-            <RegisterForm onSubmit={handleRegister}>
+        <GlassContainer>
+            <GlassForm onSubmit={handleRegister}>
+                <GlassTitle>Create Account</GlassTitle>
+                
                 <FormRow>
                     <FormGroup>
-                        <Label>Username:</Label>
-                        <Input
+                        <GlassLabel>Username:</GlassLabel>
+                        <GlassInput
                             type="text"
                             value={userName}
                             onChange={(e) => setUsername(e.target.value)}
@@ -60,8 +61,8 @@ const Register = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label>Age:</Label>
-                        <Input
+                        <GlassLabel>Age:</GlassLabel>
+                        <GlassInput
                             type="number"
                             value={age}
                             onChange={(e) => setAge(e.target.value)}
@@ -69,10 +70,11 @@ const Register = () => {
                         />
                     </FormGroup>
                 </FormRow>
+                
                 <FormRow>
                     <FormGroup>
-                        <Label>Mobile:</Label>
-                        <Input
+                        <GlassLabel>Mobile:</GlassLabel>
+                        <GlassInput
                             type="tel"
                             value={mobile}
                             onChange={(e) => setMobile(e.target.value)}
@@ -80,8 +82,8 @@ const Register = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label>Email:</Label>
-                        <Input
+                        <GlassLabel>Email:</GlassLabel>
+                        <GlassInput
                             type="email"
                             value={mail}
                             onChange={(e) => setMail(e.target.value)}
@@ -89,10 +91,11 @@ const Register = () => {
                         />
                     </FormGroup>
                 </FormRow>
+                
                 <FormRow>
                     <FormGroup>
-                        <Label>Interests:</Label>
-                        <Select
+                        <GlassLabel>Interests:</GlassLabel>
+                        <GlassSelect
                             value={interests}
                             onChange={(e) => setInterests(e.target.value)}
                         >
@@ -100,11 +103,11 @@ const Register = () => {
                             <option value="Sports">Sports</option>
                             <option value="Listening to Songs">Listening to Songs</option>
                             <option value="Travelling">Travelling</option>
-                        </Select>
+                        </GlassSelect>
                     </FormGroup>
                     <FormGroup>
-                        <Label>Language:</Label>
-                        <Input
+                        <GlassLabel>Language:</GlassLabel>
+                        <GlassInput
                             type="text"
                             value={language}
                             onChange={(e) => setLanguage(e.target.value)}
@@ -112,10 +115,11 @@ const Register = () => {
                         />
                     </FormGroup>
                 </FormRow>
+                
                 <FormRow>
                     <FormGroup>
-                        <Label>Gender:</Label>
-                        <Select
+                        <GlassLabel>Gender:</GlassLabel>
+                        <GlassSelect
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
                         >
@@ -123,24 +127,25 @@ const Register = () => {
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
-                        </Select>
+                        </GlassSelect>
                     </FormGroup>
                     <FormGroup>
-                        <Label>Role:</Label>
-                        <Select
+                        <GlassLabel>Role:</GlassLabel>
+                        <GlassSelect
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                         >
                             <option value="">Select Role</option>
                             <option value="client">Client</option>
                             <option value="helper">Helper</option>
-                        </Select>
+                        </GlassSelect>
                     </FormGroup>
                 </FormRow>
+                
                 <FormRow>
                     <FormGroup>
-                        <Label>Password:</Label>
-                        <Input
+                        <GlassLabel>Password:</GlassLabel>
+                        <GlassInput
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -148,8 +153,8 @@ const Register = () => {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label>Confirm Password:</Label>
-                        <Input
+                        <GlassLabel>Confirm Password:</GlassLabel>
+                        <GlassInput
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -157,96 +162,221 @@ const Register = () => {
                         />
                     </FormGroup>
                 </FormRow>
-                <ButtonContainer>
-                    <Button type="submit">Register</Button>
-                </ButtonContainer>
-            </RegisterForm>
-        </RegisterContainer>
+                
+                <GlassButton type="submit">Register</GlassButton>
+            </GlassForm>
+        </GlassContainer>
     );
 };
 
-const RegisterContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    background: linear-gradient(to right, #8e44ad, #ffffff); /* Violet to White Gradient */
-    padding: 20px;
-    
-    h1 {
-        margin-bottom: 20px;
-        color: #6a1b9a; /* Deep violet for heading */
-    }
+// Glass morphism styles
+const GlassContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #8e24aa 0%, #4a0072 100%);
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    transform: rotate(30deg);
+    animation: ${keyframes`
+      0% { transform: rotate(30deg) translate(-10%, -10%); }
+      100% { transform: rotate(30deg) translate(10%, 10%); }
+    `} 8s infinite alternate;
+  }
+
+  @media (max-width: 600px) {
+    padding: 10px;
+  }
 `;
 
-const RegisterForm = styled.form`
-    width: 100%;
-    max-width: 600px;
-    background-color: #ffffff; /* White background for form */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+const GlassForm = styled.form`
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
+  z-index: 1;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px) rotateX(2deg);
+  }
+
+  @media (max-width: 600px) {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+`;
+
+const GlassTitle = styled.h1`
+  color: white;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+
+  @media (max-width: 600px) {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
 `;
 
 const FormRow = styled.div`
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 15px;
+  }
 `;
 
 const FormGroup = styled.div`
-    flex: 1;
-    min-width: 200px;
+  flex: 1;
+  min-width: 200px;
 `;
 
-const Label = styled.label`
-    display: block;
-    color: #333;
-    margin-bottom: 5px;
-    font-weight: bold;
+const GlassLabel = styled.label`
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
 `;
 
-const Input = styled.input`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+const GlassInput = styled.input`
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 600px) {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
 `;
 
-const Select = styled.select`
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-`;
+const GlassSelect = styled.select`
+  width: 100%;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-`;
-
-const Button = styled.button`
-    width: 150px;
-    padding: 10px;
-    background-color: #8e44ad; /* Violet background for button */
-    border: none;
-    border-radius: 5px;
+  option {
+    background: #8e24aa;
     color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  }
 
-    &:hover {
-        background-color: #6a1b9a; /* Darker violet on hover */
-    }
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 600px) {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+`;
+
+const GlassButton = styled.button`
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto 0;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: block;
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.2) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    padding: 14px;
+    font-size: 1rem;
+    max-width: 100%;
+  }
 `;
 
 export default Register;
