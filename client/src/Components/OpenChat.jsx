@@ -36,8 +36,8 @@ const OpenChat = ({ Chats, User, socket }) => {
     const roomID = getUrlParams().get('roomID') || randomID(5);
     const generateCallUrl = async () => {
       if (!callUrlGenerated) { // Check if URL has already been generated
-        const appID =1887319413;
-        const serverSecret = "2724cbd7accd99e528a14ea9b7a229d1";
+        const appID =758088940;
+        const serverSecret = "2d59b5af5bb0fe7e3b621be6742c6891";
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, randomID(5), randomID(5));
       
         const zp = ZegoUIKitPrebuilt.create(kitToken);
