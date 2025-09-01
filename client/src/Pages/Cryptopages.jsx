@@ -17,7 +17,7 @@ const Cryptopages = () => {
   const [account, setAccount] = useState(null);
   const [userid,setuserid] = useState();
 
-  const contractAddress = "0x3aD89DDe7e823a23D1518D841B3e34E14D209320";
+  const contractAddress = "0x16fdb4d0d662b412b0f2f657bf7df06077df12ca";
 
   useEffect(() => {
     const initWeb3 = async () => {
